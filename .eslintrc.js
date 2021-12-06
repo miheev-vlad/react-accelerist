@@ -1,29 +1,49 @@
 module.exports = {
-  env: {
-    es2021: true,
-    node: true,
-  },
+  root: true,
   extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
+    'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 13,
-    sourceType: 'module',
+  env: {
+    browser: true,
+    jasmine: true,
+    jest: true,
   },
-  plugins: ['react', '@typescript-eslint', 'react-hooks', 'prettier'],
+  settings: {
+    react: {
+      pragma: 'React',
+      version: 'detect',
+    },
+  },
+  parser: '@typescript-eslint/parser',
+  plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks'],
   rules: {
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'react/display-name': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    camelcase: 'off',
+    '@typescript-eslint/camelcase': 'off',
     'prettier/prettier': [
       'error',
       {
+        bracketSpacing: true,
+        jsxBracketSameLine: true,
+        singleQuote: true,
+        trailingComma: 'all',
         endOfLine: 'auto',
       },
     ],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+    'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
+  },
+  globals: {
+    process: false,
+    Promise: true,
   },
 };
