@@ -1,16 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LogoSvgComponent } from '../../../..';
 import { Colors } from '../../../../../globalColors';
+import LogoSvgComponent from '../../../../ui/SvgComponents/LogoSvgComponent/LogoSvgComponent';
 
 const Header = () => {
   return (
     <LogoHeader>
       <HeaderContainer>
-        <LogoWrapper>
-          <LogoSvgComponent />
-          <LogoText>ACCELERIST</LogoText>
-        </LogoWrapper>
+        <LogoSvgComponent />
       </HeaderContainer>
     </LogoHeader>
   );
@@ -27,7 +24,7 @@ export const LogoHeader = styled.header`
   font-size: 1.2rem;
   position: absolute;
   top: 0;
-  min-width: 100vw;
+  min-width: 100%;
   background-color: ${Colors.black};
 
   transition: background-color 0.3s ease-in;
@@ -38,15 +35,4 @@ export const HeaderContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-`;
-
-export const LogoWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const LogoText = styled.p`
-  margin-left: 16px;
-  color: #fff;
 `;

@@ -2,8 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 
-const Button = ({ onClickHandler, children }) => {
-  return <StyledButton onClick={onClickHandler}>{children}</StyledButton>;
+const Button = ({ onClickHandler, children, disabled }) => {
+  return (
+    <StyledButton onClick={onClickHandler} disabled={disabled}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default Button;
@@ -22,6 +26,11 @@ export const StyledButton = styled.button`
   transition: 0.4s;
 
   &:hover {
+    background-color: ${Colors.pale_blue_lily};
+    color: ${Colors.blue};
+  }
+
+  &:disabled {
     background-color: ${Colors.pale_blue_lily};
     color: ${Colors.blue};
   }

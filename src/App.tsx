@@ -10,7 +10,9 @@ import {
   AuthenticationLayout,
   LoginPage,
   RegisterPage,
+  ResetPasswordPage,
   SearchPage,
+  SetNewPasswordPage,
 } from './components';
 import GlobalStyle from './globalStyles';
 
@@ -28,6 +30,8 @@ const App = () => {
         <Route path="/auth" element={<AuthenticationLayout />}>
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="reset" element={<ResetPasswordPage />} />
+          <Route path="password" element={<SetNewPasswordPage />} />
           <Route path="/auth" element={<Navigate to="register" />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

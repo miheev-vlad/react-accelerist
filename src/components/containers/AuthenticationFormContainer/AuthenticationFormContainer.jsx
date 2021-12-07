@@ -40,14 +40,20 @@ const AuthenticationFormContainer = ({
 export default AuthenticationFormContainer;
 
 export const FormSection = styled.div`
+  width: 100vw;
   padding-top: 153px;
   width: 100%;
-  padding-bottom: 241px;
+
+  @media screen and (max-width: 500px) {
+    min-height: 667px;
+    padding-top: 100px;
+  }
 `;
 
 export const FormContainer = styled.div`
   display: flex;
   width: 100%;
+  padding: 0 16px;
 `;
 
 export const FormRow = styled.div`
@@ -68,11 +74,12 @@ export const FormColumn = styled.div`
   align-items: center;
   flex-direction: column;
   border-radius: 6px;
-  @media screen and (max-width: 768px) {
-    max-width: 100% !important;
-    flex-basis: 100%;
-  }
   padding: 40px;
+
+  @media screen and (max-width: 500px) {
+    max-width: 343px;
+    padding: 24px 16px 0 16px;
+  }
 `;
 
 export const FormWrapper = styled.form`
@@ -98,7 +105,7 @@ export const LinkButtonWrapper = styled.div`
   border-radius: 6px;
   background-color: ${Colors.desert_storm};
   margin-bottom: 10px;
-  padding: 0 2px;
+  padding: 2px;
 `;
 
 export const LinkButton = styled(NavLink)`
@@ -111,6 +118,8 @@ export const LinkButton = styled(NavLink)`
   background: ${({ activated }) =>
     activated ? `${Colors.secondary_blue}` : `${Colors.desert_storm}`};
   border-radius: 6px;
-  padding: 9px 68px;
   width: 183px;
+  height: 36px;
+  text-align: center;
+  padding: 9px 0;
 `;

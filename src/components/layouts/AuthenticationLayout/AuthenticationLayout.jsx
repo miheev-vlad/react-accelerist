@@ -15,8 +15,11 @@ const AuthenticationLayout = () => {
 export default AuthenticationLayout;
 
 export const LayoutWrapper = styled.div`
-  min-width: 100vw;
-  min-height: 100vh;
+  min-height: 1024px;
   background: url('/assets/images/png/homedark.png') no-repeat center;
   background-size: cover;
+
+  @media screen and (max-width: 500px) {
+    min-height: 760px;
+  }
 `;

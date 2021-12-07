@@ -7,4 +7,5 @@ export const Colors = {
   blue: '#2BAEE0',
   pale_blue_lily: '#CEEDF9',
   green_white: '#E8E8E8',
+  bean_red: '#F05658',
 };

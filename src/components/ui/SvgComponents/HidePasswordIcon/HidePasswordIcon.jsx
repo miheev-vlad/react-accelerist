@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import HideIconSvgComponent from './components/HideIconSvgComponent/HideIconSvgComponent';
+import { HideIconSvgComponent } from './components';
 
 const HidePasswordIcon = ({ setIsShowPassword, isShowPassword }) => {
   return (
@@ -20,7 +20,8 @@ export const HideIconContainer = styled.div`
 
 export const HideIconWrapper = styled.div`
   position: absolute;
-  top: -33px;
-  right: 16px;
+  top: 60px;
+  right: 10px;
   cursor: pointer;
+  z-index: 50;
 `;

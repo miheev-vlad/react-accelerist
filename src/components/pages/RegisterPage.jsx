@@ -2,22 +2,14 @@ import React, { useState } from 'react';
 import { Field, Form } from 'react-final-form';
 import styled from 'styled-components';
 import { Colors } from '../../globalColors';
-import AuthenticationFormContainer from '../forms/AuthenticationFormContainer/AuthenticationFormContainer';
-import Button from '../ui/Button/Button';
-import Input from '../ui/Input/Input';
+import { AuthenticationFormContainer } from '../containers';
+import { Button, Input } from '../ui';
 import HidePasswordIcon from '../ui/SvgComponents/HidePasswordIcon/HidePasswordIcon';
 import SocialNetworkSvgIconComponent from '../ui/SvgComponents/SocialNetworkSvgIconComponent/SocialNetworkSvgIconComponent';
 
-const required = value => {
-  if (!value || !value.trim()) {
-    return true;
-  }
-
-  return undefined;
-};
-
-export const RegisterPage = () => {
+const RegisterPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+
   return (
     <>
       <Form
@@ -25,7 +17,7 @@ export const RegisterPage = () => {
           console.log(values);
           form.reset();
         }}
-        render={({ handleSubmit, form, values }) => {
+        render={({ handleSubmit, form }) => {
           return (
             <AuthenticationFormContainer
               title={'Welcome to Accelerist'}
@@ -34,29 +26,33 @@ export const RegisterPage = () => {
               <Field
                 name="email"
                 component={Input}
-                validate={required}
                 label="Email"
                 type="text"
-              />
-              <Field
-                name="password"
-                component={Input}
-                validate={required}
-                label="Password"
-                type={isShowPassword ? 'text' : 'password'}
+                validate={v => (v ? undefined : 'Email is Required')}
               />
               <HidePasswordIcon
                 isShowPassword={isShowPassword}
                 setIsShowPassword={setIsShowPassword}
               />
+              <Field
+                name="password"
+                component={Input}
+                label="Password"
+                type={isShowPassword ? 'text' : 'password'}
+                validate={v => (v ? undefined : 'Password is Required')}
+              />
               <AgreementText>
                 I agree that by clicking <BoldText>“Registration”</BoldText> I
                 accept the{' '}
-                <StyledLink href="https://accelerist-frontend.herokuapp.com/terms">
+                <StyledLink
+                  href="https://accelerist-frontend.herokuapp.com/terms"
+                  target="blank">
                   Terms Of Service
                 </StyledLink>{' '}
                 and{' '}
-                <StyledLink href="https://accelerist-frontend.herokuapp.com/privacy-policy">
+                <StyledLink
+                  href="https://accelerist-frontend.herokuapp.com/privacy-policy"
+                  target="blank">
                   Privacy Policy
                 </StyledLink>
               </AgreementText>
@@ -71,12 +67,14 @@ export const RegisterPage = () => {
   );
 };
 
+export default RegisterPage;
+
 export const AgreementText = styled.p`
   color: ${Colors.dark_gray};
   font-size: 12px;
   line-height: 150%;
   text-align: center;
-  width: 360px;
+  max-width: 360px;
   margin: 40px 0 16px 0;
 `;
 
@@ -100,6 +98,6 @@ export const SocialText = styled.p`
   font-size: 12px;
   line-height: 150%;
   text-align: center;
-  width: 360px;
+  max-width: 360px;
   margin: 32px 0 24px 0;
 `;

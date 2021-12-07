@@ -1,21 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form } from 'react-final-form';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../../globalColors';
-import AuthenticationFormContainer from '../forms/AuthenticationFormContainer/AuthenticationFormContainer';
-import Button from '../ui/Button/Button';
-import Input from '../ui/Input/Input';
+import { AuthenticationFormContainer } from '../containers';
+import { Button, Checkbox, Input } from '../ui';
+import HidePasswordIcon from '../ui/SvgComponents/HidePasswordIcon/HidePasswordIcon';
 import SocialNetworkSvgIconComponent from '../ui/SvgComponents/SocialNetworkSvgIconComponent/SocialNetworkSvgIconComponent';
 
-const required = value => {
-  if (!value || !value.trim()) {
-    return true;
-  }
+const LoginPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
-  return undefined;
-};
-
-export const LoginPage = () => {
   return (
     <>
       <Form
@@ -32,17 +27,32 @@ export const LoginPage = () => {
               <Field
                 name="email"
                 component={Input}
-                validate={required}
                 label="Email"
                 type="text"
+                validate={v => (v ? undefined : 'Email is Required')}
+              />
+              <HidePasswordIcon
+                isShowPassword={isShowPassword}
+                setIsShowPassword={setIsShowPassword}
               />
               <Field
                 name="password"
                 component={Input}
-                validate={required}
                 label="Password"
-                type="password"
+                type={isShowPassword ? 'text' : 'password'}
+                validate={v => (v ? undefined : 'Password is Required')}
               />
+              <LoginFormFooterContainer>
+                <CheckboxWrapper>
+                  <Field name="remember" component={Checkbox} type="checkbox" />
+                  <RememberLabel>Remember</RememberLabel>
+                </CheckboxWrapper>
+                <div>
+                  <ForgotPasswordLink to="/auth/reset">
+                    Forgot Password?
+                  </ForgotPasswordLink>
+                </div>
+              </LoginFormFooterContainer>
               <Button onClickHandler={form.submit}>Login</Button>
               <SocialText>or continue with</SocialText>
               <SocialNetworkSvgIconComponent />
@@ -54,11 +64,45 @@ export const LoginPage = () => {
   );
 };
 
+export default LoginPage;
+
 export const SocialText = styled.p`
   color: ${Colors.dark_gray};
   font-size: 12px;
   line-height: 150%;
   text-align: center;
-  width: 360px;
+  max-width: 360px;
   margin: 32px 0 24px 0;
+`;
+
+export const LoginFormFooterContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 13px 0 62px 0;
+`;
+
+export const ForgotPasswordLink = styled(Link)`
+  text-decoration: none;
+  color: ${Colors.dark_gray};
+  font-size: 12px;
+  line-height: 150%;
+
+  &:hover {
+    color: ${Colors.black};
+  }
+`;
+
+export const RememberLabel = styled.label`
+  color: ${Colors.black};
+  font-size: 12px;
+  line-height: 150%;
+`;
+
+export const CheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
