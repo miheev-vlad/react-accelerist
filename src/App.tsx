@@ -1,25 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from 'react-router-dom';
 import './App.css';
+import {
+  AuthenticationLayout,
+  LoginPage,
+  RegisterPage,
+  ResetPasswordPage,
+  SearchPage,
+  SetNewPasswordPage,
+} from './components';
+import GlobalStyle from './globalStyles';
 
-function App() {
+const App = () => {
+  const isAuth = false;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <GlobalStyle />
+      <Routes>
+        <Route
+          path="/"
+          element={isAuth ? <SearchPage /> : <Navigate to="/auth" />}
+        />
+        <Route path="/auth" element={<AuthenticationLayout />}>
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="reset" element={<ResetPasswordPage />} />
+          <Route path="password" element={<SetNewPasswordPage />} />
+          <Route path="/auth" element={<Navigate to="register" />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
