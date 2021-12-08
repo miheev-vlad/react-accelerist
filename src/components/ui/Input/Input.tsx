@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
-import { capitalLetterHelper } from '../../../helpers/capitalLetterHelper';
+import { changeCapitalLetterHelper } from '../../../helpers/changeCapitalLetterHelper';
 
 type InputProps = FieldRenderProps<string, HTMLElement>;
 
@@ -16,7 +16,7 @@ const Input: React.FC<InputProps> = ({ input, meta }) => {
 
   return (
     <InputRow>
-      <InputLabel>{capitalLetterHelper(input.name)}</InputLabel>
+      <InputLabel>{changeCapitalLetterHelper(input.name)}</InputLabel>
       <StyledInput {...inputProps} placeholder={`Enter ${input.name}`} />
       <ErrorText>{touched && (error || submitError) ? error : ''}</ErrorText>
     </InputRow>
