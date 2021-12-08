@@ -1,5 +1,3 @@
-import { LogoSvgComponent } from './LogoSvgComponent';
-import { HidePasswordIcon } from './HidePasswordIcon';
-import { SocialNetworkSvgIconComponent } from './SocialNetworkSvgIconComponent';
-
-export { LogoSvgComponent, HidePasswordIcon, SocialNetworkSvgIconComponent };
+export { LogoSvgComponent } from './LogoSvgComponent';
+export { HidePasswordIcon } from './HidePasswordIcon';
+export { SocialNetworkSvgIconComponent } from './SocialNetworkSvgIconComponent';

@@ -1,13 +1,5 @@
-import { default as RegisterPage } from './RegisterPage';
-import { default as LoginPage } from './LoginPage';
-import { default as SearchPage } from './SearchPage';
-import { default as ResetPasswordPage } from './ResetPasswordPage';
-import { default as SetNewPasswordPage } from './SetNewPasswordPage';
-
-export {
-  RegisterPage,
-  LoginPage,
-  SearchPage,
-  ResetPasswordPage,
-  SetNewPasswordPage,
-};
+export { RegisterPage } from './RegisterPage';
+export { LoginPage } from './LoginPage';
+export { SearchPage } from './SearchPage';
+export { ResetPasswordPage } from './ResetPasswordPage';
+export { SetNewPasswordPage } from './SetNewPasswordPage';

@@ -1,3 +1,1 @@
-import { default as ReturnLink } from './ReturnLink';
-
-export { ReturnLink };
+export { default as ReturnLink } from './ReturnLink';

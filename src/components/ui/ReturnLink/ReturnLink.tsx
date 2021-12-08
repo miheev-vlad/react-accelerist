@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 
-const ReturnLink = ({ children, path }) => {
+type ReturnLinkProps = {
+  path: string;
+};
+
+const ReturnLink: React.FC<ReturnLinkProps> = ({ children, path }) => {
   return (
     <ReturnLinkWrapper>
       <StyledLink to={path}>{children}</StyledLink>
@@ -28,7 +32,8 @@ export const StyledLink = styled(Link)`
   line-height: 150%;
   width: 138px;
   height: 36px;
-  padding: 9px 24px;
+  padding: 9px 0;
+  text-align: center;
   background: rgba(18, 36, 52, 0.15);
   border-radius: 6px;
 

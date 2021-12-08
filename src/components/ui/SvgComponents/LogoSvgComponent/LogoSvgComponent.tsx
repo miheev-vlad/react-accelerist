@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { LogoTextSvgComponent } from './components';
 import { LogoIconSvgComponent } from './components';
 
-const LogoSvgComponent = () => {
+const LogoSvgComponent: React.FC = () => {
   return (
     <LogoWrapper>
       <span style={{ marginRight: 16 }}>

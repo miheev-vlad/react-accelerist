@@ -3,7 +3,7 @@ import { Outlet } from 'react-router';
 import styled from 'styled-components';
 import { Header } from './components/Header';
 
-const AuthenticationLayout = () => {
+const AuthenticationLayout: React.FC = () => {
   return (
     <LayoutWrapper>
       <Header />

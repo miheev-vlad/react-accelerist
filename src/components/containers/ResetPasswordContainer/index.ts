@@ -1,3 +1,1 @@
-import { default as ResetPasswordContainer } from './ResetPasswordContainer';
-
-export { ResetPasswordContainer };
+export { default as ResetPasswordContainer } from './ResetPasswordContainer';

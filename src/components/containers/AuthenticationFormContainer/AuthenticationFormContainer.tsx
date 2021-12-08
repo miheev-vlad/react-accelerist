@@ -1,15 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { data } from '../../../data/NavLinkData';
 import { Colors } from '../../../globalColors';
+import { navigationData } from '../../../navigation';
 
-const AuthenticationFormContainer = ({
-  title,
-  handleSubmit,
-  children,
-  path,
-}) => {
+type AuthenticationFormContainerProps = {
+  title: string;
+  handleSubmit(): void;
+};
+
+const AuthenticationFormContainer: React.FC<
+  AuthenticationFormContainerProps
+> = ({ title, handleSubmit, children }) => {
   return (
     <FormSection>
       <FormContainer>
@@ -17,18 +19,13 @@ const AuthenticationFormContainer = ({
           <FormColumn>
             <FormTitle>{title}</FormTitle>
             <LinkButtonWrapper>
-              <LinkButton
-                to={data['register'].to}
-                activated={path === data['register'].id ? 'true' : undefined}>
-                {data['register'].text}
+              <LinkButton to={navigationData.register.to}>
+                {navigationData.register.text}
               </LinkButton>
-              <LinkButton
-                to={data['login'].to}
-                activated={path === data['login'].id ? 'true' : undefined}>
-                {data['login'].text}
+              <LinkButton to={navigationData.login.to}>
+                {navigationData.login.text}
               </LinkButton>
             </LinkButtonWrapper>
-
             <FormWrapper onSubmit={handleSubmit}>{children}</FormWrapper>
           </FormColumn>
         </FormRow>
@@ -40,7 +37,6 @@ const AuthenticationFormContainer = ({
 export default AuthenticationFormContainer;
 
 export const FormSection = styled.div`
-  width: 100vw;
   padding-top: 153px;
   width: 100%;
 
@@ -68,7 +64,7 @@ export const FormColumn = styled.div`
   background: white;
   flex: 1;
   max-width: 454px;
-  height: 630px;
+  min-height: 630px;
   display: flex;
   justify-content: start;
   align-items: center;
@@ -78,7 +74,7 @@ export const FormColumn = styled.div`
 
   @media screen and (max-width: 500px) {
     max-width: 343px;
-    padding: 24px 16px 0 16px;
+    padding: 24px 16px 24px 16px;
   }
 `;
 
@@ -113,13 +109,16 @@ export const LinkButton = styled(NavLink)`
   font-weight: normal;
   font-size: 12px;
   line-height: 150%;
-  color: ${({ activated }) =>
-    activated ? `${Colors.black}` : `${Colors.dark_gray}`};
-  background: ${({ activated }) =>
-    activated ? `${Colors.secondary_blue}` : `${Colors.desert_storm}`};
+  color: ${Colors.dark_gray};
+  background: ${Colors.desert_storm};
   border-radius: 6px;
   width: 183px;
   height: 36px;
   text-align: center;
   padding: 9px 0;
+
+  &.active {
+    color: ${Colors.black};
+    background: ${Colors.secondary_blue};
+  }
 `;

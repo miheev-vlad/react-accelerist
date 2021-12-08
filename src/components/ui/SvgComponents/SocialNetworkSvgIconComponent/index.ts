@@ -1,3 +1,1 @@
-import { default as SocialNetworkSvgIconComponent } from './SocialNetworkSvgIconComponent';
-
-export { SocialNetworkSvgIconComponent };
+export { default as SocialNetworkSvgIconComponent } from './SocialNetworkSvgIconComponent';

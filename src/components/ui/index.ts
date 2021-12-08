@@ -1,19 +1,6 @@
-import {
-  LogoSvgComponent,
-  HidePasswordIcon,
-  SocialNetworkSvgIconComponent,
-} from './SvgComponents';
-import { Button } from './Button';
-import { Input } from './Input';
-import { Checkbox } from './Checkbox';
-import { ReturnLink } from './ReturnLink';
+export { Button } from './Button';
+export { Input } from './Input';
+export { Checkbox } from './Checkbox';
+export { ReturnLink } from './ReturnLink';
 
-export {
-  LogoSvgComponent,
-  HidePasswordIcon,
-  SocialNetworkSvgIconComponent,
-  Button,
-  Input,
-  Checkbox,
-  ReturnLink,
-};
+export * from './SvgComponents';

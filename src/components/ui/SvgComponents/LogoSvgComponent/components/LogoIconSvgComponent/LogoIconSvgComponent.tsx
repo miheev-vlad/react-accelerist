@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const LogoIconSvgComponent = () => (
+const LogoIconSvgComponent: React.FC = () => (
   <svg width={36} height={36} fill="none">
     <path fill="#FFDA00" d="M17.24 10.8h1.013V0H17.24z" />
     <path fill="#F6921E" d="M17.24 36h1.013V25.2H17.24z" />

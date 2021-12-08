@@ -1,3 +1,1 @@
-import { AuthenticationLayout } from './AuthenticationLayout';
-
-export { AuthenticationLayout };
+export { AuthenticationLayout } from './AuthenticationLayout';

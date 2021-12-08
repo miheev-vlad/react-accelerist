@@ -1,3 +1,1 @@
-import { default as HideIconSvgComponent } from './HideIconSvgComponent';
-
-export { HideIconSvgComponent };
+export { default as HideIconSvgComponent } from './HideIconSvgComponent';

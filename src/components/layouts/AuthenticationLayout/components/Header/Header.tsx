@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Colors } from '../../../../../globalColors';
 import LogoSvgComponent from '../../../../ui/SvgComponents/LogoSvgComponent/LogoSvgComponent';
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <LogoHeader>
       <HeaderContainer>
