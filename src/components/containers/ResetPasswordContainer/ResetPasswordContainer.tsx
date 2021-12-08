@@ -2,7 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 
-const ResetPasswordContainer = ({ title, text, handleSubmit, children }) => {
+type ResetPasswordContainerProps = {
+  title: string;
+  handleSubmit?(): void;
+  text: string;
+};
+
+const ResetPasswordContainer: React.FC<ResetPasswordContainerProps> = ({
+  title,
+  text,
+  handleSubmit,
+  children,
+}) => {
   return (
     <FormSection>
       <FormContainer>

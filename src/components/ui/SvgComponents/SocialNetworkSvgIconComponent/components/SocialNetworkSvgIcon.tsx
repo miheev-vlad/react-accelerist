@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const SocialNetworkSvgIcon = () => (
+const SocialNetworkSvgIcon: React.FC = () => (
   <svg width={44} height={44} fill="none">
     <circle cx={22} cy={22} r={22} fill="#F8F8F8" />
     <path

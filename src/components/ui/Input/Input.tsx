@@ -1,19 +1,23 @@
 import React from 'react';
+import { FieldRenderProps } from 'react-final-form';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
-import { CapitalLetterHelper } from '../../../helpers/CapitalLetterHelper';
+import { capitalLetterHelper } from '../../../helpers/capitalLetterHelper';
 
-const Input = ({ input, meta }) => {
+type InputProps = FieldRenderProps<string, HTMLElement>;
+
+const Input: React.FC<InputProps> = ({ input, meta }) => {
   const { error, touched, submitError } = meta;
+
+  const inputProps = {
+    error: touched && error,
+    ...input,
+  };
 
   return (
     <InputRow>
-      <InputLabel>{CapitalLetterHelper(input.name)}</InputLabel>
-      <StyledInput
-        {...input}
-        placeholder={`Enter ${input.name}`}
-        error={touched && error}
-      />
+      <InputLabel>{capitalLetterHelper(input.name)}</InputLabel>
+      <StyledInput {...inputProps} placeholder={`Enter ${input.name}`} />
       <ErrorText>{touched && (error || submitError) ? error : ''}</ErrorText>
     </InputRow>
   );
@@ -30,7 +34,9 @@ export const InputRow = styled.div`
   margin-top: 24px;
 `;
 
-export const StyledInput = styled.input`
+export const StyledInput = styled.input.attrs(
+  (props: { error: boolean }) => props,
+)`
   display: block;
   outline: none;
   width: 100%;

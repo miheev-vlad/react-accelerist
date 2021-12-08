@@ -2,7 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { HideIconSvgComponent } from './components';
 
-const HidePasswordIcon = ({ setIsShowPassword, isShowPassword }) => {
+type HidePasswordIconProps = {
+  setIsShowPassword(v: boolean): void;
+  isShowPassword: boolean;
+};
+
+const HidePasswordIcon: React.FC<HidePasswordIconProps> = ({
+  setIsShowPassword,
+  isShowPassword,
+}) => {
   return (
     <HideIconContainer>
       <HideIconWrapper onClick={() => setIsShowPassword(!isShowPassword)}>

@@ -1,8 +1,11 @@
 import React from 'react';
+import { FieldRenderProps } from 'react-final-form';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 
-const Checkbox = ({ input }) => {
+type CheckboxProps = FieldRenderProps<string, HTMLElement>;
+
+const Checkbox: React.FC<CheckboxProps> = ({ input }) => {
   return <StyledCheckbox {...input} />;
 };
 

@@ -2,7 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 
-const Button = ({ onClickHandler, children, disabled }) => {
+type ButtonProps = {
+  onClickHandler(): void;
+  disabled?: boolean;
+};
+
+const Button: React.FC<ButtonProps> = ({
+  onClickHandler,
+  children,
+  disabled,
+}) => {
   return (
     <StyledButton onClick={onClickHandler} disabled={disabled}>
       {children}

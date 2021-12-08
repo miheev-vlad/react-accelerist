@@ -1,4 +1,4 @@
-export const data = {
+const navigationData = {
   register: {
     to: '/auth/register',
     text: 'Register',
@@ -10,3 +10,5 @@ export const data = {
     id: 'login',
   },
 };
+
+export default navigationData;
