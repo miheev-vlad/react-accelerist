@@ -2,31 +2,34 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
-import { navigationData } from '../../../navigation';
+import { NavigationDataProps } from '../../../navigation';
 
 type AuthenticationFormContainerProps = {
   title: string;
-  handleSubmit(): void;
+  navigationData?: NavigationDataProps;
+  small?: boolean;
 };
 
 const AuthenticationFormContainer: React.FC<
   AuthenticationFormContainerProps
-> = ({ title, handleSubmit, children }) => {
+> = ({ title, children, navigationData }) => {
   return (
     <FormSection>
       <FormContainer>
         <FormRow>
           <FormColumn>
             <FormTitle>{title}</FormTitle>
-            <LinkButtonWrapper>
-              <LinkButton to={navigationData.register.to}>
-                {navigationData.register.text}
-              </LinkButton>
-              <LinkButton to={navigationData.login.to}>
-                {navigationData.login.text}
-              </LinkButton>
-            </LinkButtonWrapper>
-            <FormWrapper onSubmit={handleSubmit}>{children}</FormWrapper>
+            {navigationData && (
+              <LinkButtonWrapper>
+                <LinkButton to={navigationData.register.to}>
+                  {navigationData.register.text}
+                </LinkButton>
+                <LinkButton to={navigationData.login.to}>
+                  {navigationData.login.text}
+                </LinkButton>
+              </LinkButtonWrapper>
+            )}
+            {children}
           </FormColumn>
         </FormRow>
       </FormContainer>
@@ -76,10 +79,6 @@ export const FormColumn = styled.div`
     max-width: 343px;
     padding: 24px 16px 24px 16px;
   }
-`;
-
-export const FormWrapper = styled.form`
-  width: 100%;
 `;
 
 export const FormTitle = styled.h1`

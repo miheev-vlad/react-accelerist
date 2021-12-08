@@ -1,2 +1,2 @@
 export { AuthenticationFormContainer } from './AuthenticationFormContainer';
-export { ResetPasswordContainer } from './ResetPasswordContainer';
+export { AuthenticationPopContainer } from './AuthenticationPopContainer';

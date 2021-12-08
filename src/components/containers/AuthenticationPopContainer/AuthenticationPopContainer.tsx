@@ -2,16 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 
-type ResetPasswordContainerProps = {
+type AuthenticationPopContainerProps = {
   title: string;
-  handleSubmit?(): void;
   text: string;
 };
 
-const ResetPasswordContainer: React.FC<ResetPasswordContainerProps> = ({
+const AuthenticationPopContainer: React.FC<AuthenticationPopContainerProps> = ({
   title,
   text,
-  handleSubmit,
   children,
 }) => {
   return (
@@ -25,7 +23,7 @@ const ResetPasswordContainer: React.FC<ResetPasswordContainerProps> = ({
             <InformationTextWrapper>
               <InformationText>{text}</InformationText>
             </InformationTextWrapper>
-            <FormWrapper onSubmit={handleSubmit}>{children}</FormWrapper>
+            {children}
           </FormColumn>
         </FormRow>
       </FormContainer>
@@ -33,7 +31,7 @@ const ResetPasswordContainer: React.FC<ResetPasswordContainerProps> = ({
   );
 };
 
-export default ResetPasswordContainer;
+export default AuthenticationPopContainer;
 
 export const FormSection = styled.div`
   padding-top: 153px;
@@ -74,10 +72,6 @@ export const FormColumn = styled.div`
     max-width: 343px;
     padding: 24px 16px 24px 16px;
   }
-`;
-
-export const FormWrapper = styled.form`
-  width: 100%;
 `;
 
 export const FormTitle = styled.h1`
