@@ -1,4 +1,6 @@
-const navigationData = {
+import { NavigationDataProps } from '.';
+
+const navigationData: NavigationDataProps = {
   register: {
     to: '/auth/register',
     text: 'Register',

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Field, Form } from 'react-final-form';
 import styled from 'styled-components';
-import { ResetPasswordContainer } from '../../containers';
+import { AuthenticationPopContainer } from '../../containers';
 import { Button, Input, ReturnLink } from '../../ui';
 
 const ResetPasswordPage = () => {
@@ -11,15 +11,17 @@ const ResetPasswordPage = () => {
     <>
       {showPopUp ? (
         <>
-          <ResetPasswordContainer
+          <AuthenticationPopContainer
             title={'Password Reset'}
             text={
               'A link was sent to your email to confirm password reset and create a new one'
             }>
             <ButtonWrapper>
-              <Button onClickHandler={() => {}}>Resend</Button>
+              <Button onClickHandler={() => {}} buttonType="button">
+                Resend
+              </Button>
             </ButtonWrapper>
-          </ResetPasswordContainer>
+          </AuthenticationPopContainer>
           <ContactSupportContainer>
             <ReturnLink path="/auth/register">Contact Support</ReturnLink>
           </ContactSupportContainer>
@@ -28,39 +30,40 @@ const ResetPasswordPage = () => {
           </ReturnLinkContainer>
         </>
       ) : (
-        <Form
-          onSubmit={(values, form) => {
-            console.log(values);
-            form.reset();
-            setShowPopUp(true);
-          }}
-          render={({ handleSubmit, form }) => {
-            return (
-              <>
-                <ResetPasswordContainer
-                  title={'Password Reset'}
-                  handleSubmit={handleSubmit}
-                  text={
-                    'Enter your email to receive instructions on how to reset your password.'
-                  }>
-                  <Field
-                    name="email"
-                    component={Input}
-                    label="Email"
-                    type="text"
-                    validate={v => (v ? undefined : 'Email is Required')}
-                  />
-                  <ButtonWrapper>
-                    <Button onClickHandler={form.submit}>Reset</Button>
-                  </ButtonWrapper>
-                </ResetPasswordContainer>
-                <ReturnLinkContainer>
-                  <ReturnLink path="/auth/login">Return to Login</ReturnLink>
-                </ReturnLinkContainer>
-              </>
-            );
-          }}
-        />
+        <>
+          <AuthenticationPopContainer
+            title={'Password Reset'}
+            text={
+              'Enter your email to receive instructions on how to reset your password.'
+            }>
+            <Form
+              onSubmit={(values, form) => {
+                console.log(values);
+                form.reset();
+                setShowPopUp(true);
+              }}
+              render={({ handleSubmit }) => {
+                return (
+                  <StyledForm onSubmit={handleSubmit}>
+                    <Field
+                      name="email"
+                      component={Input}
+                      label="Email"
+                      type="text"
+                      validate={v => (v ? undefined : 'Email is Required')}
+                    />
+                    <ButtonWrapper>
+                      <Button buttonType="submit">Reset</Button>
+                    </ButtonWrapper>
+                  </StyledForm>
+                );
+              }}
+            />
+          </AuthenticationPopContainer>
+          <ReturnLinkContainer>
+            <ReturnLink path="/auth/login">Return to Login</ReturnLink>
+          </ReturnLinkContainer>
+        </>
       )}
     </>
   );
@@ -69,6 +72,7 @@ const ResetPasswordPage = () => {
 export default ResetPasswordPage;
 
 export const ButtonWrapper = styled.div`
+  width: 100%;
   margin-top: 40px;
 `;
 
@@ -86,4 +90,8 @@ export const ContactSupportContainer = styled.div`
   display: flex;
   width: 100%;
   margin-top: 32px;
+`;
+
+export const StyledForm = styled.form`
+  width: 100%;
 `;
