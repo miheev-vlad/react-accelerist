@@ -1,4 +1,2 @@
-import { LogoIconSvgComponent } from './LogoIconSvgComponent';
-import { LogoTextSvgComponent } from './LogoTextSvgComponent';
-
-export { LogoIconSvgComponent, LogoTextSvgComponent };
+export { LogoIconSvgComponent } from './LogoIconSvgComponent';
+export { LogoTextSvgComponent } from './LogoTextSvgComponent';

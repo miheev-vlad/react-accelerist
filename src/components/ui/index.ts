@@ -1,8 +1,6 @@
-import { Button } from './Button';
-import { Input } from './Input';
-import { Checkbox } from './Checkbox';
-import { ReturnLink } from './ReturnLink';
-
-export { Button, Input, Checkbox, ReturnLink };
+export { Button } from './Button';
+export { Input } from './Input';
+export { Checkbox } from './Checkbox';
+export { ReturnLink } from './ReturnLink';
 
 export * from './SvgComponents';

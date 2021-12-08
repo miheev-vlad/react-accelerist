@@ -1,3 +1,1 @@
-import { default as AuthenticationFormContainer } from './AuthenticationFormContainer';
-
-export { AuthenticationFormContainer };
+export { default as AuthenticationFormContainer } from './AuthenticationFormContainer';

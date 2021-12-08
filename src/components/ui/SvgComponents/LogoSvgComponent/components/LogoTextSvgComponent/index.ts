@@ -1,3 +1,1 @@
-import { default as LogoTextSvgComponent } from './LogoTextSvgComponent';
-
-export { LogoTextSvgComponent };
+export { default as LogoTextSvgComponent } from './LogoTextSvgComponent';

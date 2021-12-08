@@ -1,4 +1,2 @@
-import { AuthenticationFormContainer } from './AuthenticationFormContainer';
-import { ResetPasswordContainer } from './ResetPasswordContainer';
-
-export { AuthenticationFormContainer, ResetPasswordContainer };
+export { AuthenticationFormContainer } from './AuthenticationFormContainer';
+export { ResetPasswordContainer } from './ResetPasswordContainer';
