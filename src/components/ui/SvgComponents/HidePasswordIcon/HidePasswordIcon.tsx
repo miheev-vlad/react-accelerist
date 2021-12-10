@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Colors } from '../../../../globalColors';
 import { HideIconSvgComponent } from './components';
 
 type HidePasswordIconProps = {
@@ -14,7 +15,9 @@ const HidePasswordIcon: React.FC<HidePasswordIconProps> = ({
   return (
     <HideIconContainer>
       <HideIconWrapper onClick={() => setIsShowPassword(!isShowPassword)}>
-        <HideIconSvgComponent />
+        <HideIconSvgComponent
+          color={isShowPassword ? `${Colors.desert_storm}` : undefined}
+        />
       </HideIconWrapper>
     </HideIconContainer>
   );

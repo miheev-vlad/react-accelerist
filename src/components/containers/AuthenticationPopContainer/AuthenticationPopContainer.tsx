@@ -1,16 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import ReactLoading from 'react-loading';
 import { Colors } from '../../../globalColors';
 
 type AuthenticationPopContainerProps = {
   title: string;
   text: string;
+  isLoading?: boolean;
+  errorMessage?: string;
 };
 
 const AuthenticationPopContainer: React.FC<AuthenticationPopContainerProps> = ({
   title,
   text,
   children,
+  isLoading,
+  errorMessage,
 }) => {
   return (
     <FormSection>
@@ -23,6 +28,25 @@ const AuthenticationPopContainer: React.FC<AuthenticationPopContainerProps> = ({
             <InformationTextWrapper>
               <InformationText>{text}</InformationText>
             </InformationTextWrapper>
+            {isLoading && (
+              <LoginWrapper>
+                <ReactLoading
+                  type="spinningBubbles"
+                  color={Colors.secondary_blue}
+                  height={60}
+                  width={60}
+                />
+              </LoginWrapper>
+            )}
+            {errorMessage && !isLoading && (
+              <ErrorsContainer>
+                <ErrorsWrapper>
+                  <ErrorsMessageParagraph>
+                    {errorMessage}
+                  </ErrorsMessageParagraph>
+                </ErrorsWrapper>
+              </ErrorsContainer>
+            )}
             {children}
           </FormColumn>
         </FormRow>
@@ -102,4 +126,38 @@ export const InformationTextWrapper = styled.div`
   width: 100%;
   padding-right: 50px;
   margin-bottom: 8px;
+`;
+
+export const LoginWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+export const ErrorsContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+export const ErrorsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+`;
+
+export const ErrorsMessageParagraph = styled.p`
+  padding: 10px;
+  color: ${Colors.bean_red};
+  background-color: rgb(255, 242, 242);
+  border: 1px solid ${Colors.bean_red};
+  border-radius: 6px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 150%;
 `;

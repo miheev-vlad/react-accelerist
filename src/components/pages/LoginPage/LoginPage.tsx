@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, Form } from 'react-final-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import validator from 'validator';
 import { Colors } from '../../../globalColors';
 import { navigationData } from '../../../navigation';
+import {
+  clearAuthError,
+  clearSendEmail,
+  login,
+  RootState,
+  setResetPasswordFail,
+  setSignInInformation,
+} from '../../../redux';
 import { AuthenticationFormContainer } from '../../containers';
 import {
   Button,
@@ -13,17 +23,62 @@ import {
   SocialNetworkSvgIconComponent,
 } from '../../ui';
 
+type LoginValuesProps = {
+  email: string;
+  password: string;
+  remember: boolean;
+};
+
 const LoginPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const dispatch = useDispatch();
+
+  const { errorMessage, isLoading } = useSelector(
+    (state: RootState) => state.auth,
+  );
+
+  const { signInEmail, signInPassword } = useSelector(
+    (state: RootState) => state.user,
+  );
+
+  useEffect(() => {
+    dispatch(setResetPasswordFail());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      setTimeout(() => {
+        dispatch(clearAuthError());
+      }, 3000);
+    }
+  }, [dispatch, errorMessage]);
 
   return (
     <AuthenticationFormContainer
       title={'Welcome to Accelerist'}
-      navigationData={navigationData}>
+      navigationData={navigationData}
+      errorMessage={errorMessage}
+      isLoading={isLoading}>
       <Form
-        onSubmit={(values, form) => {
-          console.log(values);
-          form.reset();
+        onSubmit={(values: LoginValuesProps) => {
+          dispatch(
+            login({
+              email: values.email,
+              password: values.password,
+            }),
+          );
+          if (values.remember) {
+            dispatch(
+              setSignInInformation({
+                email: values.email,
+                password: values.password,
+              }),
+            );
+          }
+        }}
+        initialValues={{
+          email: signInEmail,
+          password: signInPassword,
         }}
         render={({ handleSubmit }) => {
           return (
@@ -33,7 +88,9 @@ const LoginPage = () => {
                 component={Input}
                 label="Email"
                 type="text"
-                validate={v => (v ? undefined : 'Email is Required')}
+                validate={(v: string) =>
+                  !validator.isEmail(v || '') && 'Valid Email is Required'
+                }
               />
               <HidePasswordIcon
                 isShowPassword={isShowPassword}
@@ -52,12 +109,20 @@ const LoginPage = () => {
                   <RememberLabel>Remember</RememberLabel>
                 </CheckboxWrapper>
                 <div>
-                  <ForgotPasswordLink to="/auth/reset">
+                  <ForgotPasswordLink
+                    to="/auth/reset"
+                    onClick={() => {
+                      dispatch(clearAuthError());
+                      dispatch(setResetPasswordFail());
+                      dispatch(clearSendEmail());
+                    }}>
                     Forgot Password?
                   </ForgotPasswordLink>
                 </div>
               </LoginFormFooterContainer>
-              <Button buttonType="submit">Login</Button>
+              <Button buttonType="submit" disabled={isLoading}>
+                Login
+              </Button>
             </StyledForm>
           );
         }}

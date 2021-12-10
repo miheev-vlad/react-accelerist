@@ -1,18 +1,25 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import ReactLoading from 'react-loading';
 import { Colors } from '../../../globalColors';
 import { NavigationDataProps } from '../../../navigation';
+import { clearAuthError } from '../../../redux';
 
 type AuthenticationFormContainerProps = {
   title: string;
   navigationData?: NavigationDataProps;
   small?: boolean;
+  errorMessage?: string;
+  isLoading?: boolean;
 };
 
 const AuthenticationFormContainer: React.FC<
   AuthenticationFormContainerProps
-> = ({ title, children, navigationData }) => {
+> = ({ title, children, navigationData, errorMessage, isLoading }) => {
+  const dispatch = useDispatch();
+
   return (
     <FormSection>
       <FormContainer>
@@ -21,13 +28,40 @@ const AuthenticationFormContainer: React.FC<
             <FormTitle>{title}</FormTitle>
             {navigationData && (
               <LinkButtonWrapper>
-                <LinkButton to={navigationData.register.to}>
+                <LinkButton
+                  to={navigationData.register.to}
+                  onClick={() => {
+                    dispatch(clearAuthError());
+                  }}>
                   {navigationData.register.text}
                 </LinkButton>
-                <LinkButton to={navigationData.login.to}>
+                <LinkButton
+                  to={navigationData.login.to}
+                  onClick={() => {
+                    dispatch(clearAuthError());
+                  }}>
                   {navigationData.login.text}
                 </LinkButton>
               </LinkButtonWrapper>
+            )}
+            {isLoading && (
+              <LoginWrapper>
+                <ReactLoading
+                  type="spinningBubbles"
+                  color={Colors.secondary_blue}
+                  height={60}
+                  width={60}
+                />
+              </LoginWrapper>
+            )}
+            {errorMessage && !isLoading && (
+              <ErrorsContainer>
+                <ErrorsWrapper>
+                  <ErrorsMessageParagraph>
+                    {errorMessage}
+                  </ErrorsMessageParagraph>
+                </ErrorsWrapper>
+              </ErrorsContainer>
             )}
             {children}
           </FormColumn>
@@ -120,4 +154,38 @@ export const LinkButton = styled(NavLink)`
     color: ${Colors.black};
     background: ${Colors.secondary_blue};
   }
+`;
+
+export const ErrorsContainer = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+export const ErrorsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+`;
+
+export const ErrorsMessageParagraph = styled.p`
+  padding: 10px;
+  color: ${Colors.bean_red};
+  background-color: rgb(255, 242, 242);
+  border: 1px solid ${Colors.bean_red};
+  border-radius: 6px;
+  width: 100%;
+  font-size: 14px;
+  line-height: 150%;
+`;
+
+export const LoginWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
 `;

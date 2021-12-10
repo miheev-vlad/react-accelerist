@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Field, Form } from 'react-final-form';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import validator from 'validator';
 import { Colors } from '../../../globalColors';
 import { navigationData } from '../../../navigation';
+import { clearAuthError, register, RootState } from '../../../redux';
 import { AuthenticationFormContainer } from '../../containers';
 import {
   Button,
@@ -11,17 +14,41 @@ import {
   SocialNetworkSvgIconComponent,
 } from '../../ui';
 
+type RegisterValuesProps = {
+  email: string;
+  password: string;
+};
+
 const RegisterPage = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const dispatch = useDispatch();
+
+  const { errorMessage, isLoading } = useSelector(
+    (state: RootState) => state.auth,
+  );
+
+  useEffect(() => {
+    if (errorMessage) {
+      setTimeout(() => {
+        dispatch(clearAuthError());
+      }, 3000);
+    }
+  }, [dispatch, errorMessage]);
 
   return (
     <AuthenticationFormContainer
       title={'Welcome to Accelerist'}
-      navigationData={navigationData}>
+      navigationData={navigationData}
+      errorMessage={errorMessage}
+      isLoading={isLoading}>
       <Form
-        onSubmit={(values, form) => {
-          console.log(values);
-          form.reset();
+        onSubmit={(values: RegisterValuesProps) => {
+          dispatch(
+            register({
+              email: values.email,
+              password: values.password,
+            }),
+          );
         }}
         render={({ handleSubmit }) => {
           return (
@@ -31,7 +58,9 @@ const RegisterPage = () => {
                 component={Input}
                 label="Email"
                 type="text"
-                validate={v => (v ? undefined : 'Email is Required')}
+                validate={(v: string) =>
+                  !validator.isEmail(v || '') && 'Valid Email is Required'
+                }
               />
               <HidePasswordIcon
                 isShowPassword={isShowPassword}
@@ -59,7 +88,9 @@ const RegisterPage = () => {
                   Privacy Policy
                 </StyledLink>
               </AgreementText>
-              <Button buttonType="submit">Registration</Button>
+              <Button buttonType="submit" disabled={isLoading}>
+                Registration
+              </Button>
             </StyledForm>
           );
         }}
