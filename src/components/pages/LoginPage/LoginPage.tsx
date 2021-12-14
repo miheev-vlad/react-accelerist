@@ -53,6 +53,23 @@ const LoginPage = () => {
     }
   }, [dispatch, errorMessage]);
 
+  const onSubmit = (values: LoginValuesProps) => {
+    dispatch(
+      login({
+        email: values.email,
+        password: values.password,
+      }),
+    );
+    if (values.remember) {
+      dispatch(
+        setSignInInformation({
+          email: values.email,
+          password: values.password,
+        }),
+      );
+    }
+  };
+
   return (
     <AuthenticationFormContainer
       title={'Welcome to Accelerist'}
@@ -60,22 +77,7 @@ const LoginPage = () => {
       errorMessage={errorMessage}
       isLoading={isLoading}>
       <Form
-        onSubmit={(values: LoginValuesProps) => {
-          dispatch(
-            login({
-              email: values.email,
-              password: values.password,
-            }),
-          );
-          if (values.remember) {
-            dispatch(
-              setSignInInformation({
-                email: values.email,
-                password: values.password,
-              }),
-            );
-          }
-        }}
+        onSubmit={onSubmit}
         initialValues={{
           email: signInEmail,
           password: signInPassword,

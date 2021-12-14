@@ -35,6 +35,15 @@ const RegisterPage = () => {
     }
   }, [dispatch, errorMessage]);
 
+  const onSubmit = (values: RegisterValuesProps) => {
+    dispatch(
+      register({
+        email: values.email,
+        password: values.password,
+      }),
+    );
+  };
+
   return (
     <AuthenticationFormContainer
       title={'Welcome to Accelerist'}
@@ -42,14 +51,7 @@ const RegisterPage = () => {
       errorMessage={errorMessage}
       isLoading={isLoading}>
       <Form
-        onSubmit={(values: RegisterValuesProps) => {
-          dispatch(
-            register({
-              email: values.email,
-              password: values.password,
-            }),
-          );
-        }}
+        onSubmit={onSubmit}
         render={({ handleSubmit }) => {
           return (
             <StyledForm onSubmit={handleSubmit}>

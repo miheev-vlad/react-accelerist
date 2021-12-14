@@ -51,6 +51,15 @@ const ResetPasswordPage = () => {
     }
   }, [dispatch, errorMessage]);
 
+  const onSubmit = (values: SendEmailValuesProps) => {
+    dispatch(
+      sendEmail({
+        email: values.email,
+      }),
+    );
+    setEmail(values.email);
+  };
+
   return (
     <>
       {isEmailSendSuccess ? (
@@ -101,14 +110,7 @@ const ResetPasswordPage = () => {
             }
             errorMessage={errorMessage}>
             <Form
-              onSubmit={(values: SendEmailValuesProps) => {
-                dispatch(
-                  sendEmail({
-                    email: values.email,
-                  }),
-                );
-                setEmail(values.email);
-              }}
+              onSubmit={onSubmit}
               render={({ handleSubmit }) => {
                 return (
                   <StyledForm onSubmit={handleSubmit}>

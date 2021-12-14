@@ -29,6 +29,18 @@ const SetNewPasswordPage = () => {
     }
   }, [dispatch, isResetPasswordSuccess, navigate]);
 
+  const onSubmit = (values: SetNewPasswordValuesProps) => {
+    if (passwordResetToken) {
+      dispatch(
+        setNewPassword({
+          password: values.password,
+          passwordConfirmation: values.password,
+          passwordResetToken,
+        }),
+      );
+    }
+  };
+
   return (
     <>
       <AuthenticationPopContainer
@@ -37,17 +49,7 @@ const SetNewPasswordPage = () => {
         errorMessage={errorMessage}
         isLoading={isLoading}>
         <Form
-          onSubmit={(values: SetNewPasswordValuesProps) => {
-            if (passwordResetToken) {
-              dispatch(
-                setNewPassword({
-                  password: values.password,
-                  passwordConfirmation: values.password,
-                  passwordResetToken,
-                }),
-              );
-            }
-          }}
+          onSubmit={onSubmit}
           render={({ handleSubmit }) => {
             return (
               <StyledForm onSubmit={handleSubmit}>
