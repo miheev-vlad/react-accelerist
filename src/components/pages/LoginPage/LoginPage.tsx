@@ -70,6 +70,12 @@ const LoginPage = () => {
     }
   };
 
+  const onClick = () => {
+    dispatch(clearAuthError());
+    dispatch(setResetPasswordFail());
+    dispatch(clearSendEmail());
+  };
+
   return (
     <AuthenticationFormContainer
       title={'Welcome to Accelerist'}
@@ -111,13 +117,7 @@ const LoginPage = () => {
                   <RememberLabel>Remember</RememberLabel>
                 </CheckboxWrapper>
                 <div>
-                  <ForgotPasswordLink
-                    to="/auth/reset"
-                    onClick={() => {
-                      dispatch(clearAuthError());
-                      dispatch(setResetPasswordFail());
-                      dispatch(clearSendEmail());
-                    }}>
+                  <ForgotPasswordLink to="/auth/reset" onClick={onClick}>
                     Forgot Password?
                   </ForgotPasswordLink>
                 </div>
