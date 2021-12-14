@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import _ from 'lodash';
 import { apiAuthInstance } from '../../../api';
 
@@ -10,13 +9,9 @@ type LoginDataProps = {
 export function requestLoginUser(loginData: LoginDataProps) {
   const apiAuth = apiAuthInstance();
 
-  return apiAuth.post<any, AxiosResponse<any, any>, LoginDataProps>(
-    '/sign_in',
-    loginData,
-    {
-      validateStatus: function (status) {
-        return _.inRange(status, 400, 500) || _.inRange(status, 200, 300);
-      },
+  return apiAuth.post('/sign_in', loginData, {
+    validateStatus: function (status) {
+      return _.inRange(status, 400, 500) || _.inRange(status, 200, 300);
     },
-  );
+  });
 }

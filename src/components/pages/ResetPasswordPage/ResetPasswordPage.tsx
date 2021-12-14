@@ -22,7 +22,13 @@ const ResetPasswordPage = () => {
     (state: RootState) => state.auth,
   );
 
-  const renderer = ({ minutes, seconds }: any) => {
+  const renderer = ({
+    minutes,
+    seconds,
+  }: {
+    minutes: number;
+    seconds: number;
+  }) => {
     return (
       <span>
         {minutes}:{seconds}
