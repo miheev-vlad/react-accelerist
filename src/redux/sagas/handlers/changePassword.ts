@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, put } from 'redux-saga/effects';
+import { call, put, StrictEffect } from 'redux-saga/effects';
 import {
   authFail,
   clearLoading,
@@ -13,7 +13,7 @@ import { requestSendEmail, requestSetNewPassword } from '../requests';
 
 export function* handleChangePassword(
   action: PayloadAction<RequestSendEmailPayloadProps>,
-): any {
+): Generator<StrictEffect, void> {
   const { email } = action.payload;
 
   try {
@@ -32,7 +32,7 @@ export function* handleChangePassword(
 
 export function* handleSetNewPassword(
   action: PayloadAction<RequestSetNewPasswordPayloadProps>,
-): any {
+): Generator<StrictEffect, void> {
   const { password, passwordConfirmation, passwordResetToken } = action.payload;
 
   try {

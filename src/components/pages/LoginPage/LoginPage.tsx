@@ -53,6 +53,29 @@ const LoginPage = () => {
     }
   }, [dispatch, errorMessage]);
 
+  const onSubmit = (values: LoginValuesProps) => {
+    dispatch(
+      login({
+        email: values.email,
+        password: values.password,
+      }),
+    );
+    if (values.remember) {
+      dispatch(
+        setSignInInformation({
+          email: values.email,
+          password: values.password,
+        }),
+      );
+    }
+  };
+
+  const onClick = () => {
+    dispatch(clearAuthError());
+    dispatch(setResetPasswordFail());
+    dispatch(clearSendEmail());
+  };
+
   return (
     <AuthenticationFormContainer
       title={'Welcome to Accelerist'}
@@ -60,22 +83,7 @@ const LoginPage = () => {
       errorMessage={errorMessage}
       isLoading={isLoading}>
       <Form
-        onSubmit={(values: LoginValuesProps) => {
-          dispatch(
-            login({
-              email: values.email,
-              password: values.password,
-            }),
-          );
-          if (values.remember) {
-            dispatch(
-              setSignInInformation({
-                email: values.email,
-                password: values.password,
-              }),
-            );
-          }
-        }}
+        onSubmit={onSubmit}
         initialValues={{
           email: signInEmail,
           password: signInPassword,
@@ -109,13 +117,7 @@ const LoginPage = () => {
                   <RememberLabel>Remember</RememberLabel>
                 </CheckboxWrapper>
                 <div>
-                  <ForgotPasswordLink
-                    to="/auth/reset"
-                    onClick={() => {
-                      dispatch(clearAuthError());
-                      dispatch(setResetPasswordFail());
-                      dispatch(clearSendEmail());
-                    }}>
+                  <ForgotPasswordLink to="/auth/reset" onClick={onClick}>
                     Forgot Password?
                   </ForgotPasswordLink>
                 </div>

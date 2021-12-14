@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import { apiAuthInstance, apiResetPasswordInstance } from '../../../api';
 
 type SendEmailProps = {
@@ -14,10 +13,7 @@ type SetNewPasswordProps = {
 export function requestSendEmail(senEmailData: SendEmailProps) {
   const apiAuth = apiAuthInstance();
 
-  return apiAuth.post<any, AxiosResponse<any, any>, SendEmailProps>(
-    '/change_password/send_mail',
-    senEmailData,
-  );
+  return apiAuth.post('/change_password/send_mail', senEmailData);
 }
 
 export function requestSetNewPassword(setNewPasswordData: SetNewPasswordProps) {
@@ -25,11 +21,8 @@ export function requestSetNewPassword(setNewPasswordData: SetNewPasswordProps) {
     setNewPasswordData;
   const apiAuth = apiResetPasswordInstance({ token: passwordResetToken });
 
-  return apiAuth.post<any, AxiosResponse<any, any>, any>(
-    '/change_password/change',
-    {
-      password,
-      passwordConfirmation,
-    },
-  );
+  return apiAuth.post('/change_password/change', {
+    password,
+    passwordConfirmation,
+  });
 }
