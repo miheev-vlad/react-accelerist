@@ -2,10 +2,7 @@ import React from 'react';
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../../../../globalColors';
-import {
-  ChevronLeftIconSvgComponent,
-  ChevronRightIconSvgComponent,
-} from './components';
+import { ChevronLeft, ChevronRight } from '../svgIcons';
 
 type PaginationComponentProps = {
   pageCount: number;
@@ -36,8 +33,8 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
   return (
     <>
       <ReactPaginate
-        previousLabel={<ChevronLeftIconSvgComponent />}
-        nextLabel={<ChevronRightIconSvgComponent />}
+        previousLabel={<ChevronLeft />}
+        nextLabel={<ChevronRight />}
         pageCount={pageCount}
         onPageChange={changePage}
         disabledClassName={'paginationDisabled'}
