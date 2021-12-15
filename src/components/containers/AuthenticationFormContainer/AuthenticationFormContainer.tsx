@@ -20,6 +20,12 @@ const AuthenticationFormContainer: React.FC<
 > = ({ title, children, navigationData, errorMessage, isLoading }) => {
   const dispatch = useDispatch();
 
+  const onClickHandler = () => {
+    () => {
+      dispatch(clearAuthError());
+    };
+  };
+
   return (
     <FormSection>
       <FormContainer>
@@ -30,16 +36,12 @@ const AuthenticationFormContainer: React.FC<
               <LinkButtonWrapper>
                 <LinkButton
                   to={navigationData.register.to}
-                  onClick={() => {
-                    dispatch(clearAuthError());
-                  }}>
+                  onClick={onClickHandler}>
                   {navigationData.register.text}
                 </LinkButton>
                 <LinkButton
                   to={navigationData.login.to}
-                  onClick={() => {
-                    dispatch(clearAuthError());
-                  }}>
+                  onClick={onClickHandler}>
                   {navigationData.login.text}
                 </LinkButton>
               </LinkButtonWrapper>

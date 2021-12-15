@@ -8,4 +8,11 @@ export const Colors = {
   pale_blue_lily: '#CEEDF9',
   green_white: '#E8E8E8',
   bean_red: '#F05658',
+  iceberg: '#D5F3FF',
+  snow_drift: '#F9F9F9',
+  aqua_haze: '#F1F4F5',
+  cloud: '#C4C4C4',
+  butterfly_blue: '#2BAEE0',
+  smokey_grey: '#737373',
+  line: '#E8E8E8',
 };
