@@ -2,11 +2,19 @@ import React from 'react';
 import { FieldRenderProps } from 'react-final-form';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
-import { changeCapitalLetterHelper } from '../../../helpers/changeCapitalLetterHelper';
+import { changeCapitalLetterHelper } from '../../../helpers';
 
-type InputProps = FieldRenderProps<string, HTMLElement>;
+type InputProps = {
+  label?: string;
+  placeholder?: string;
+};
 
-const Input: React.FC<InputProps> = ({ input, meta }) => {
+const Input: React.FC<FieldRenderProps<string, HTMLElement> & InputProps> = ({
+  input,
+  meta,
+  label,
+  placeholder,
+}) => {
   const { error, touched, submitError } = meta;
 
   const inputProps = {
@@ -16,8 +24,15 @@ const Input: React.FC<InputProps> = ({ input, meta }) => {
 
   return (
     <InputRow>
-      <InputLabel>{changeCapitalLetterHelper(input.name)}</InputLabel>
-      <StyledInput {...inputProps} placeholder={`Enter ${input.name}`} />
+      {label ? (
+        <InputLabel>{label}</InputLabel>
+      ) : (
+        <InputLabel>{changeCapitalLetterHelper(input.name)}</InputLabel>
+      )}
+      <StyledInput
+        {...inputProps}
+        placeholder={placeholder ? placeholder : `Enter ${input.name}`}
+      />
       <ErrorText>{touched && (error || submitError) ? error : ''}</ErrorText>
     </InputRow>
   );

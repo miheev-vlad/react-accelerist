@@ -19,9 +19,11 @@ export {
   setSignInInformation,
   clearSignInInformation,
 } from './user';
+export { toggleShowAdvancedSearch } from './search';
 
 export { default as authenticationReducer } from './authentication';
 export { default as userReducer } from './user';
+export { default as searchReducer } from './search';
 
 export type {
   RequestAuthenticationPayloadProps,
