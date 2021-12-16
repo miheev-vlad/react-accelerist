@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { createContext, useState } from 'react';
 import { Outlet } from 'react-router';
 import styled from 'styled-components';
+import { SearchFilterContext } from '../../../context';
 import { Colors } from '../../../globalColors';
-import { RootState } from '../../../redux';
 import { Navbar, SearchPanel } from './components';
 
 const DashboardLayout: React.FC = () => {
   const [filterName, setFilterName] = useState('');
 
-  const showAdvancedSearch = useSelector(
-    (state: RootState) => state.search.showAdvancedSearch,
-  );
-
   return (
-    <LayoutWrapper>
-      <Navbar />
-      <SearchPanel setFilterName={setFilterName} />
-      <Outlet />
-    </LayoutWrapper>
+    <SearchFilterContext.Provider
+      value={{
+        filterName,
+      }}>
+      <LayoutWrapper>
+        <Navbar />
+        <SearchPanel setFilterName={setFilterName} />
+        <Outlet />
+      </LayoutWrapper>
+    </SearchFilterContext.Provider>
   );
 };
 

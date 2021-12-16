@@ -1,3 +1,3 @@
 export { CompanyCard } from './CompanyCard';
-
-export * from './pagination';
+export { ActivityBar } from './ActivityBar';
+export { PaginationPanel } from './PaginationPanel';
