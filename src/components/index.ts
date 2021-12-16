@@ -1,3 +1,3 @@
-export { AuthenticationLayout } from './layouts';
+export { AuthenticationLayout, DashboardLayout } from './layouts';
 
 export * from './pages';

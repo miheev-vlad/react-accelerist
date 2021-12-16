@@ -32,13 +32,17 @@ const Input: React.FC<FieldRenderProps<string, HTMLElement> & InputProps> = ({
     dispatch(toggleShowAdvancedSearch());
   };
 
-  const searchIconClickHandler = () => {
+  const onChangeHandler = () => {
     form.submit();
   };
 
   return (
     <InputRow>
-      <StyledInput {...inputProps} placeholder={'Enter company name'} />
+      <StyledInput
+        {...inputProps}
+        placeholder={'Enter company name'}
+        onKeyUp={onChangeHandler}
+      />
       <IconsContainer>
         <AdvancedSearchIconWrapper onClick={advancedSearchIconClickHandler}>
           <AdvancedSearchIconSvgComponent
@@ -47,9 +51,7 @@ const Input: React.FC<FieldRenderProps<string, HTMLElement> & InputProps> = ({
             }
           />
         </AdvancedSearchIconWrapper>
-        <SearchIconWrapper onClick={searchIconClickHandler}>
-          <SearchIconSvgComponent />
-        </SearchIconWrapper>
+        <SearchIconSvgComponent />
       </IconsContainer>
       <ErrorText>{touched && (error || submitError) ? error : ''}</ErrorText>
     </InputRow>
@@ -114,14 +116,6 @@ export const IconsContainer = styled.div`
 `;
 
 export const AdvancedSearchIconWrapper = styled.div`
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.6;
-  }
-`;
-
-export const SearchIconWrapper = styled.div`
   cursor: pointer;
 
   &:hover {

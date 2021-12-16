@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
+import { SearchFilterContext } from '../../../../../../context';
 import { Colors } from '../../../../../../globalColors';
-import { CompanyCard, FooterPagination, PaginationPanel } from './components';
+import { ActivityBar, CompanyCard, PaginationPanel } from './components';
 import { mockSearchData } from './mockData';
 
-type SearchResultSectionProps = {
-  filterName: string;
-};
-
-const SearchResultSection: React.FC<SearchResultSectionProps> = ({
-  filterName,
-}) => {
+const SearchResultSection: React.FC = () => {
+  const { filterName } = useContext(SearchFilterContext);
   let [companies] = useState(mockSearchData);
   const [pageNumber, setPageNumber] = useState(0);
 
@@ -37,13 +33,18 @@ const SearchResultSection: React.FC<SearchResultSectionProps> = ({
             Found {companies ? companies.length : 0} companies
           </SearchResultTitle>
         </SearchResultTextWrapper>
-        <PaginationPanel
-          pageCount={pageCount}
-          changePage={changePage}
-          pagesVisited={pagesVisited}
-          companiesPerPage={companiesPerPage}
-          companies={companies}
-        />
+        <ActivityAndPaginationWrapper>
+          <ActivityBar />
+          <TopPaginationWrapper>
+            <PaginationPanel
+              pageCount={pageCount}
+              changePage={changePage}
+              pagesVisited={pagesVisited}
+              companiesPerPage={companiesPerPage}
+              companies={companies}
+            />
+          </TopPaginationWrapper>
+        </ActivityAndPaginationWrapper>
         {companies.length > 0 && (
           <SearchResultWrapper>
             {companies
@@ -56,13 +57,15 @@ const SearchResultSection: React.FC<SearchResultSectionProps> = ({
         {companies.length === 0 && (
           <SearchResultTitle>Nothing to show...</SearchResultTitle>
         )}
-        <FooterPagination
-          pageCount={pageCount}
-          changePage={changePage}
-          pagesVisited={pagesVisited}
-          companiesPerPage={companiesPerPage}
-          companies={companies}
-        />
+        <FooterPaginationWrapper>
+          <PaginationPanel
+            pageCount={pageCount}
+            changePage={changePage}
+            pagesVisited={pagesVisited}
+            companiesPerPage={companiesPerPage}
+            companies={companies}
+          />
+        </FooterPaginationWrapper>
       </SearchResultContainer>
     </SearchResultSectionWrapper>
   );
@@ -112,5 +115,29 @@ export const SearchResultWrapper = styled.div`
 
   @media screen and (max-width: 750px) {
     grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
+export const ActivityAndPaginationWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 26px;
+`;
+
+export const FooterPaginationWrapper = styled.div`
+  display: none;
+
+  @media screen and (max-width: 750px) {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+`;
+
+export const TopPaginationWrapper = styled.div`
+  @media screen and (max-width: 750px) {
+    display: none;
   }
 `;
