@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router';
 import {
   AuthenticationLayout,
+  DashboardLayout,
   LoginPage,
   RegisterPage,
   ResetPasswordPage,
@@ -21,8 +22,11 @@ const MainRoutes: React.FC = () => {
       {isAuthorized && (
         <Route
           path="/"
-          element={isAuthorized ? <SearchPage /> : <Navigate to="/auth" />}
-        />
+          element={
+            isAuthorized ? <DashboardLayout /> : <Navigate to="/auth" />
+          }>
+          <Route index element={<SearchPage />} />
+        </Route>
       )}
       {!isAuthorized && (
         <Route path="/auth" element={<AuthenticationLayout />}>

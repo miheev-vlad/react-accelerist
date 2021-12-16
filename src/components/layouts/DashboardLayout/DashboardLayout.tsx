@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Outlet } from 'react-router';
 import styled from 'styled-components';
 import { Colors } from '../../../globalColors';
 import { RootState } from '../../../redux';
-import { AdvancedSearchSection, SearchResultSection } from './components';
+import { Navbar, SearchPanel } from './components';
 
-const SearchPage: React.FC = () => {
+const DashboardLayout: React.FC = () => {
   const [filterName, setFilterName] = useState('');
 
   const showAdvancedSearch = useSelector(
@@ -13,15 +14,19 @@ const SearchPage: React.FC = () => {
   );
 
   return (
-    <SearchPageContainer>
-      {!showAdvancedSearch && <SearchResultSection filterName={filterName} />}
-      {showAdvancedSearch && <AdvancedSearchSection />}
-    </SearchPageContainer>
+    <LayoutWrapper>
+      <Navbar />
+      <SearchPanel setFilterName={setFilterName} />
+      <Outlet />
+    </LayoutWrapper>
   );
 };
 
-export default SearchPage;
+export default DashboardLayout;
 
-export const SearchPageContainer = styled.div`
+export const LayoutWrapper = styled.div`
+  position: absolute;
   width: 100%;
+  height: 100%;
+  background: ${Colors.snow_drift};
 `;
