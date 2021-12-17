@@ -24,3 +24,16 @@ export const apiResetPasswordInstance = ({ token }: AuthParamsType) => {
 
   return axios.create(config);
 };
+
+export const apiCompaniesInstance = ({ token }: AuthParamsType) => {
+  const config = {
+    baseURL: 'https://accelerist.herokuapp.com/api/v1/companies',
+    headers: { Authorization: '' },
+  };
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return axios.create(config);
+};

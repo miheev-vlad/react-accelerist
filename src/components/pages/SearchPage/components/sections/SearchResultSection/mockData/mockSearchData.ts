@@ -6,7 +6,7 @@ const mockSearchData = [
     address: `4140 Parker Rd. Allentown, 
     New Mexico 31134`,
     phone: '(671) 555-0110',
-    csr_focus: ['Health', 'Animals', 'Education'],
+    csr_focus: ['Technics', 'IT', 'Education'],
     revenue: 4434476,
     logo: 'https://www.logodesign.net/logo/abstract-cuboid-building-4519ld.png',
   },

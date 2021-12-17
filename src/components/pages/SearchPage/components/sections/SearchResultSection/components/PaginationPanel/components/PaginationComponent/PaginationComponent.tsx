@@ -7,26 +7,27 @@ import { ChevronLeft, ChevronRight } from '../svgIcons';
 type PaginationComponentProps = {
   pageCount: number;
   changePage({ selected }: any): void;
-  pagesVisited: number;
-  companiesPerPage: number;
-  companies: any;
+  currentPage: number;
+  itemsPerPage: number;
+  companies: number;
+  totalItems: number;
 };
 
 const PaginationComponent: React.FC<PaginationComponentProps> = ({
   pageCount,
   changePage,
-  pagesVisited,
-  companiesPerPage,
+  currentPage,
+  itemsPerPage,
   companies,
+  totalItems,
 }) => {
   const pageCounterTextGenerator = (): string => {
-    return `${companies && companies.length === 0 ? 0 : pagesVisited + 1}-${
-      pagesVisited +
-      companies.slice(pagesVisited, pagesVisited + companiesPerPage).length
-    }${' '}of ${companies.length}`;
+    return `${(currentPage - 1) * itemsPerPage + 1}-${
+      (currentPage - 1) * itemsPerPage + companies
+    }${' '}of ${totalItems}`;
   };
 
-  if (companies && companies.length === 0) {
+  if (companies === 0) {
     return <></>;
   }
 
@@ -56,7 +57,7 @@ export const PageCounterWrapper = styled.div`
   flex-flow: row;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 84%;
   margin-left: -19px;
 `;
 

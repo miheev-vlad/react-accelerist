@@ -1,0 +1,14 @@
+import reducer from './companiesSlice';
+
+export * from './operations';
+
+export type {
+  RequestGetCompaniesPayloadProps,
+  ResponseGetCompaniesPayloadProps,
+  RequestLikeCompanyPayloadProps,
+  QueryParamsProps,
+} from './companiesSlice';
+
+export * from './types';
+
+export default reducer;

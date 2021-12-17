@@ -5,26 +5,29 @@ import { PaginationComponent } from './components';
 type PaginationPanelProps = {
   pageCount: number;
   changePage({ selected }: any): void;
-  pagesVisited: number;
-  companiesPerPage: number;
-  companies: any;
+  currentPage: number;
+  itemsPerPage: number;
+  companies: number;
+  totalItems: number;
 };
 
 const PaginationPanel: React.FC<PaginationPanelProps> = ({
   pageCount,
   changePage,
-  pagesVisited,
-  companiesPerPage,
+  currentPage,
+  itemsPerPage,
   companies,
+  totalItems,
 }) => {
   return (
     <PaginationPanelContainer>
       <PaginationComponent
         pageCount={pageCount}
         changePage={changePage}
-        pagesVisited={pagesVisited}
-        companiesPerPage={companiesPerPage}
+        currentPage={+currentPage}
+        itemsPerPage={+itemsPerPage}
         companies={companies}
+        totalItems={totalItems}
       />
     </PaginationPanelContainer>
   );
@@ -63,7 +66,7 @@ export const PaginationPanelContainer = styled.div`
   }
 
   li:first-child {
-    margin-right: 92px;
+    margin-right: 110px;
   }
 
   .paginationDisabled a {

@@ -1,2 +1,3 @@
 export { DotIconSvgComponent } from './DotIconSvgComponent';
-export { HeartIconSvgComponent } from './HeartIconSvgComponent';
+export { UnlikeHeartIcon } from './UnlikeHeartIcon';
+export { LikeHeartIcon } from './LikeHeartIcon';

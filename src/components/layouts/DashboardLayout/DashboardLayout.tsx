@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 import styled from 'styled-components';
 import { SearchFilterContext } from '../../../context';

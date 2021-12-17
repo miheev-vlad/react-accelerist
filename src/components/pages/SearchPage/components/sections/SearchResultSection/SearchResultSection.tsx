@@ -1,69 +1,78 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { SearchFilterContext } from '../../../../../../context';
+import ReactLoading from 'react-loading';
 import { Colors } from '../../../../../../globalColors';
+import { ItemsProps } from '../../../../../../redux/ducks';
 import { ActivityBar, CompanyCard, PaginationPanel } from './components';
-import { mockSearchData } from './mockData';
 
-const SearchResultSection: React.FC = () => {
-  const { filterName } = useContext(SearchFilterContext);
-  let [companies] = useState(mockSearchData);
-  const [pageNumber, setPageNumber] = useState(0);
+type SearchResultSectionProps = {
+  companies: ItemsProps[];
+  currentPage: string;
+  totalItems: number;
+  itemCount: number;
+  itemsPerPage: string;
+  totalPages: number;
+  isCompaniesLoading: boolean;
+  changePage({ selected }: any): void;
+};
 
-  if (filterName && filterName.trim()) {
-    companies = companies.filter(company =>
-      company.name.toLocaleLowerCase().includes(filterName.toLocaleLowerCase()),
-    );
-  }
-
-  const companiesPerPage = 12;
-  const pagesVisited = pageNumber * companiesPerPage;
-
-  const pageCount = Math.ceil(companies.length / companiesPerPage);
-
-  const changePage = ({ selected }: any) => {
-    setPageNumber(selected);
-  };
-
+const SearchResultSection: React.FC<SearchResultSectionProps> = ({
+  companies,
+  currentPage,
+  totalItems,
+  itemCount,
+  itemsPerPage,
+  totalPages,
+  isCompaniesLoading,
+  changePage,
+}) => {
   return (
     <SearchResultSectionWrapper>
       <SearchResultContainer>
         <SearchResultTextWrapper>
-          <SearchResultTitle>
-            Found {companies ? companies.length : 0} companies
-          </SearchResultTitle>
+          <SearchResultTitle>Found {totalItems} companies</SearchResultTitle>
         </SearchResultTextWrapper>
         <ActivityAndPaginationWrapper>
           <ActivityBar />
           <TopPaginationWrapper>
             <PaginationPanel
-              pageCount={pageCount}
+              pageCount={totalPages}
               changePage={changePage}
-              pagesVisited={pagesVisited}
-              companiesPerPage={companiesPerPage}
-              companies={companies}
+              currentPage={+currentPage}
+              itemsPerPage={+itemsPerPage}
+              companies={companies.length}
+              totalItems={totalItems}
             />
           </TopPaginationWrapper>
         </ActivityAndPaginationWrapper>
-        {companies.length > 0 && (
+        {isCompaniesLoading && (
+          <LoadingWrapper>
+            <ReactLoading
+              type="spinningBubbles"
+              color={Colors.secondary_blue}
+              height={60}
+              width={60}
+            />
+          </LoadingWrapper>
+        )}
+        {!isCompaniesLoading && companies.length > 0 && (
           <SearchResultWrapper>
-            {companies
-              .slice(pagesVisited, pagesVisited + companiesPerPage)
-              .map((company, index) => (
-                <CompanyCard company={company} key={index} />
-              ))}
+            {companies.map((company, index) => (
+              <CompanyCard company={company} key={index} />
+            ))}
           </SearchResultWrapper>
         )}
-        {companies.length === 0 && (
+        {!isCompaniesLoading && companies.length === 0 && (
           <SearchResultTitle>Nothing to show...</SearchResultTitle>
         )}
         <FooterPaginationWrapper>
           <PaginationPanel
-            pageCount={pageCount}
+            pageCount={itemCount}
             changePage={changePage}
-            pagesVisited={pagesVisited}
-            companiesPerPage={companiesPerPage}
-            companies={companies}
+            currentPage={+currentPage}
+            itemsPerPage={+itemsPerPage}
+            companies={companies.length}
+            totalItems={totalItems}
           />
         </FooterPaginationWrapper>
       </SearchResultContainer>
@@ -140,4 +149,13 @@ export const TopPaginationWrapper = styled.div`
   @media screen and (max-width: 750px) {
     display: none;
   }
+`;
+
+export const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  margin-top: 40px;
 `;
