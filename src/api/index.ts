@@ -1,1 +1,5 @@
-export { apiAuthInstance, apiResetPasswordInstance } from './instance';
+export {
+  apiAuthInstance,
+  apiResetPasswordInstance,
+  apiCompaniesInstance,
+} from './instance';

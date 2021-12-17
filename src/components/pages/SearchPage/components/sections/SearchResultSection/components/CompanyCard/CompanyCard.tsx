@@ -1,39 +1,71 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../../globalColors';
-import { CompanyProps } from '../../mockData';
+import { RootState } from '../../../../../../../../redux';
+import {
+  disLikeCompany,
+  ItemsProps,
+  likeCompany,
+} from '../../../../../../../../redux/ducks';
+import { mockSearchData } from '../../mockData';
 import {
   DotIconSvgComponent,
-  HeartIconSvgComponent,
+  LikeHeartIcon,
   ProfileButton,
+  UnlikeHeartIcon,
 } from './components';
 
 type CompanyCardProps = {
-  company: CompanyProps;
+  company: ItemsProps;
 };
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
+  const dispatch = useDispatch();
+
+  const addressStringGenerator = () => {
+    return `${company.street}. ${company.city}, ${company.state} ${company.zipCode}`;
+  };
+
+  const getLogo = () => {
+    if (!company.logo) {
+      return mockSearchData[0].logo;
+    }
+    return company.logo;
+  };
+
+  const getCsrFocus = () => {
+    if (company.crsFocus.length === 0) {
+      return mockSearchData[0].csr_focus;
+    }
+    return company.crsFocus;
+  };
+
+  const token = useSelector((state: RootState) => state.auth.token);
+
   return (
     <SearchResultCard>
       <ImageGridItem>
         <ImageWrapper>
-          <StyledImage src={company.logo} alt="logo" />
+          <StyledImage src={getLogo()} alt="logo" />
         </ImageWrapper>
         <PriorityRankingWrapper>
           <PriorityRankingText>Priority Ranking</PriorityRankingText>
-          <PriorityRankingData>{company.priority_ranking}</PriorityRankingData>
+          <PriorityRankingData>{company.crsFocus}</PriorityRankingData>
         </PriorityRankingWrapper>
       </ImageGridItem>
       <InformationGridItem>
         <CompanyNameParagraph>{company.name}</CompanyNameParagraph>
-        <CompanyAddressParagraph>{company.address}</CompanyAddressParagraph>
+        <CompanyAddressParagraph>
+          {addressStringGenerator()}
+        </CompanyAddressParagraph>
         <CompanyPhoneParagraph>{company.phone}</CompanyPhoneParagraph>
         <InformationFooterContainer>
           <InformationLeftContent>
             <CompanyCSRParagraph>CSR Focus</CompanyCSRParagraph>
             <CSRDataContainer>
-              {company.csr_focus.map((csr, index) => (
+              {getCsrFocus().map((csr: any, index: any) => (
                 <CSRDataWrapper key={index}>
                   {index !== 0 && (
                     <DotIconSvgComponentWrapper>
@@ -66,9 +98,22 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
       </InformationGridItem>
       <ProfileGridItem>
         <div>
-          <HeartIconSvgComponentWrapper>
-            <HeartIconSvgComponent />
-          </HeartIconSvgComponentWrapper>
+          {company.like ? (
+            <HeartIconSvgComponentWrapper
+              isLike
+              onClick={() => {
+                dispatch(disLikeCompany({ token, id: company.id }));
+              }}>
+              <LikeHeartIcon />
+            </HeartIconSvgComponentWrapper>
+          ) : (
+            <HeartIconSvgComponentWrapper
+              onClick={() => {
+                dispatch(likeCompany({ token, id: company.id }));
+              }}>
+              <UnlikeHeartIcon />
+            </HeartIconSvgComponentWrapper>
+          )}
         </div>
         <ProfileButtonWrapper>
           <ProfileButton>Profile</ProfileButton>
@@ -127,7 +172,6 @@ export const InformationGridItem = styled.div`
   flex-flow: column;
   justify-content: space-between;
   height: 156px;
-  border-bottom: 1px solid ${Colors.green_white};
 
   @media screen and (max-width: 1170px) {
     display: flex;
@@ -271,8 +315,10 @@ export const InformationRightContent = styled.div`
   display: flex;
   flex-flow: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   padding-bottom: 12px;
+  border-bottom: 1px solid ${Colors.green_white};
+  width: 30%;
 
   @media screen and (max-width: 1170px) {
     border: 0;
@@ -286,6 +332,7 @@ export const InformationLeftContent = styled.div`
   flex-flow: column;
   width: 70%;
   border-right: 1px solid ${Colors.green_white};
+  border-bottom: 1px solid ${Colors.green_white};
   padding-bottom: 12px;
 
   @media screen and (max-width: 1170px) {
@@ -323,10 +370,15 @@ export const RevenueStyledText = styled.p`
   color: ${Colors.dark_gray};
 `;
 
-export const HeartIconSvgComponentWrapper = styled.div`
+export const HeartIconSvgComponentWrapper = styled.div.attrs(
+  (props: { isLike: boolean }) => props,
+)`
   width: 36px;
   height: 36px;
-  border: 1px solid ${Colors.green_white};
+  border: ${({ isLike }) =>
+    isLike
+      ? `1px solid ${Colors.bean_red}`
+      : `1px solid ${Colors.green_white}`};
   border-radius: 6px;
   display: flex;
   align-items: center;

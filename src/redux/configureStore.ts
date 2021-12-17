@@ -2,7 +2,12 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { authenticationReducer, userReducer, searchReducer } from './ducks';
+import {
+  authenticationReducer,
+  userReducer,
+  searchReducer,
+  companiesReducer,
+} from './ducks';
 import { watchSaga } from './sagas';
 
 const persistConfig = {
@@ -17,6 +22,7 @@ const reducer = combineReducers({
   auth: authenticationReducer,
   user: userReducer,
   search: searchReducer,
+  companies: companiesReducer,
 });
 
 const persisted = persistReducer(persistConfig, reducer);
