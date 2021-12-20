@@ -1,10 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { AdvancedSearchIconSvgComponent, SearchIconSvgComponent } from '..';
 import { Colors } from '../../../../../../../globalColors';
 import { RootState } from '../../../../../../../redux';
 import { toggleShowAdvancedSearch } from '../../../../../../../redux/ducks';
+import {
+  AdvancedSearchIconSvgComponent,
+  SearchIconSvgComponent,
+} from '../../../../../../ui';
 
 type InputProps = {
   onChangeHandler(searchStr: string): void;
@@ -25,7 +28,7 @@ const Input: React.FC<InputProps> = ({ onChangeHandler }) => {
     <InputRow>
       <StyledInput
         type="text"
-        placeholder={'Search state'}
+        placeholder={'Search location'}
         onKeyUp={event => {
           onChangeHandler((event.target as HTMLInputElement).value);
         }}

@@ -1,3 +1,4 @@
+import { FormApi } from 'final-form';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../../globalColors';
@@ -5,7 +6,7 @@ import { Colors } from '../../../../../../../../globalColors';
 type MultiButtonsProps = {
   titles: string[];
   label?: string;
-  form?: any;
+  form?: FormApi;
   filedName?: string;
 };
 
@@ -22,7 +23,7 @@ const MultiButtons: React.FC<MultiButtonsProps> = ({
       return;
     }
     setCurrentButton(index);
-    form.mutators.setValue(filedName, title);
+    form!.mutators.setValue(filedName, title);
   };
 
   return (

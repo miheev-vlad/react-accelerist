@@ -13,12 +13,12 @@ export type CompaniesStateProps = {
 };
 
 export type QueryParamsProps = {
-  ageRanges?: any;
-  gender?: any;
-  industry?: any;
-  location?: any;
-  revenueMin?: any;
-  revenueMax?: any;
+  ageRanges?: string[];
+  gender?: string;
+  industry?: string[];
+  location?: string[];
+  revenueMin?: string;
+  revenueMax?: string;
 };
 
 export type ResponseGetCompaniesPayloadProps = {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ToastContainer, toast } from 'react-toastify';
@@ -10,7 +10,15 @@ import {
 } from '../../../redux/ducks';
 import { AdvancedSearchSection, SearchResultSection } from './components';
 
-const Toast = ({ uploadFileName }: any) => {
+type ToastProps = {
+  uploadFileName: string;
+};
+
+export type ChangePageProps = {
+  selected: number;
+};
+
+const Toast = ({ uploadFileName }: ToastProps) => {
   return (
     <div>
       <p>File {uploadFileName} upload</p>
@@ -28,7 +36,7 @@ const SearchPage: React.FC = () => {
     (state: RootState) => state.companies.isCompaniesLoading,
   );
 
-  const changePage = ({ selected }: any) => {
+  const changePage = ({ selected }: ChangePageProps) => {
     dispatch(setCurrentPage({ currentPage: (selected + 1).toString() }));
   };
 
@@ -57,6 +65,7 @@ const SearchPage: React.FC = () => {
       showUploadNotify();
     }
     dispatch(cleaningUploadFile());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, uploadFileName]);
 
   useEffect(() => {

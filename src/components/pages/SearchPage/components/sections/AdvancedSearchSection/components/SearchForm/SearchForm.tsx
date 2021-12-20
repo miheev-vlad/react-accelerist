@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Field, Form } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';

@@ -3,6 +3,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../../../../globalColors';
+import { FormApi } from 'final-form';
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -14,7 +15,7 @@ type RangeSliderProps = {
   valuePattern: boolean;
   defaultValues: number[];
   label: string;
-  form: any;
+  form: FormApi;
   rangeName: string;
 };
 
