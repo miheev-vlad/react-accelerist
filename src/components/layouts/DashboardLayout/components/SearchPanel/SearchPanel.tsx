@@ -1,46 +1,43 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { titleCase } from 'title-case';
 import { Colors } from '../../../../../globalColors';
+import { useDebouncedCallback } from '../../../../../hooks';
+import { RootState } from '../../../../../redux';
+import {
+  getCompanies,
+  setCurrentPage,
+  setQueryParams,
+} from '../../../../../redux/ducks';
 import { Input } from './components';
 
-type SearchPanelProps = {
-  setFilterName: React.Dispatch<React.SetStateAction<string>>;
-};
+const SearchPanel: React.FC = () => {
+  const dispatch = useDispatch();
 
-type SearchValuesProps = {
-  company: string;
-};
+  const token = useSelector((state: RootState) => state.auth.token);
 
-const SearchPanel: React.FC<SearchPanelProps> = ({ setFilterName }) => {
-  const onSubmit = (values: SearchValuesProps) => {
-    setFilterName(values.company);
-  };
+  const onChangeHandler = useDebouncedCallback((searchStr: string) => {
+    if (!searchStr.trim()) {
+      const searchParams = {
+        location: [],
+      };
+      dispatch(getCompanies({ token, page: 1, queryParams: searchParams }));
+      dispatch(setCurrentPage({ currentPage: '1' }));
+    } else {
+      const searchParams = {
+        location: searchStr ? [titleCase(searchStr.trim())] : [],
+      };
+      dispatch(setQueryParams({ queryParams: searchParams }));
+      dispatch(setCurrentPage({ currentPage: '1' }));
+    }
+  }, 1000);
 
   return (
     <PanelContainer>
       <PanelWrapper>
         <PanelTextWrapper>Search</PanelTextWrapper>
-        <Form
-          onSubmit={onSubmit}
-          render={({ handleSubmit, form }) => {
-            return (
-              <StyledForm onSubmit={handleSubmit}>
-                <Field name="company">
-                  {({ input, meta }) => (
-                    <Input
-                      type="text"
-                      input={input}
-                      meta={meta}
-                      {...input}
-                      form={form}
-                    />
-                  )}
-                </Field>
-              </StyledForm>
-            );
-          }}
-        />
+        <Input onChangeHandler={onChangeHandler} />
       </PanelWrapper>
     </PanelContainer>
   );

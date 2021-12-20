@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { ToastContainer, toast } from 'react-toastify';
-import { SearchFilterContext } from '../../../context';
 import { RootState } from '../../../redux';
 import {
   cleaningUploadFile,
@@ -64,15 +63,7 @@ const SearchPage: React.FC = () => {
     dispatch(getCompanies({ token, page: +currentPage, queryParams }));
   }, [currentPage, dispatch, queryParams, token]);
 
-  let companies = useSelector((state: RootState) => state.companies.items);
-
-  const { filterName } = useContext(SearchFilterContext);
-
-  if (filterName && filterName.trim()) {
-    companies = companies.filter(company =>
-      company.name.toLocaleLowerCase().includes(filterName.toLocaleLowerCase()),
-    );
-  }
+  const companies = useSelector((state: RootState) => state.companies.items);
 
   return (
     <SearchPageContainer>

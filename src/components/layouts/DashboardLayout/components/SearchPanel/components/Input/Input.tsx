@@ -1,5 +1,4 @@
 import React from 'react';
-import { FieldRenderProps } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { AdvancedSearchIconSvgComponent, SearchIconSvgComponent } from '..';
@@ -8,40 +7,28 @@ import { RootState } from '../../../../../../../redux';
 import { toggleShowAdvancedSearch } from '../../../../../../../redux/ducks';
 
 type InputProps = {
-  form: any;
+  onChangeHandler(searchStr: string): void;
 };
 
-const Input: React.FC<FieldRenderProps<string, HTMLElement> & InputProps> = ({
-  input,
-  meta,
-  form,
-}) => {
-  const { error, touched, submitError } = meta;
+const Input: React.FC<InputProps> = ({ onChangeHandler }) => {
   const dispatch = useDispatch();
 
   const showAdvancedSearch = useSelector(
     (state: RootState) => state.search.showAdvancedSearch,
   );
 
-  const inputProps = {
-    error: touched && error,
-    ...input,
-  };
-
   const advancedSearchIconClickHandler = () => {
     dispatch(toggleShowAdvancedSearch());
-  };
-
-  const onChangeHandler = () => {
-    form.submit();
   };
 
   return (
     <InputRow>
       <StyledInput
-        {...inputProps}
-        placeholder={'Enter company name'}
-        onKeyUp={onChangeHandler}
+        type="text"
+        placeholder={'Search state'}
+        onKeyUp={event => {
+          onChangeHandler((event.target as HTMLInputElement).value);
+        }}
       />
       <IconsContainer>
         <AdvancedSearchIconWrapper onClick={advancedSearchIconClickHandler}>
@@ -53,7 +40,6 @@ const Input: React.FC<FieldRenderProps<string, HTMLElement> & InputProps> = ({
         </AdvancedSearchIconWrapper>
         <SearchIconSvgComponent />
       </IconsContainer>
-      <ErrorText>{touched && (error || submitError) ? error : ''}</ErrorText>
     </InputRow>
   );
 };
@@ -96,13 +82,6 @@ export const StyledInput = styled.input.attrs(
   @media screen and (max-width: 767px) {
     width: 100%;
   }
-`;
-
-export const ErrorText = styled.p`
-  color: ${Colors.bean_red};
-  font-size: 12px;
-  line-height: 150%;
-  margin-left: 2px;
 `;
 
 export const IconsContainer = styled.div`
