@@ -1,11 +1,13 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { call, put } from 'redux-saga/effects';
+import { call, put, StrictEffect } from 'redux-saga/effects';
 import {
   RequestGetCompaniesPayloadProps,
   RequestLikeCompanyPayloadProps,
   setCompanies,
   cleaningLoading,
   showUploadFileToast,
+  ResponseGetCompaniesPayloadProps,
+  ResponseUploadFilePayloadProps,
 } from '../../ducks';
 import { setError } from '../../ducks/companies';
 import {
@@ -17,7 +19,13 @@ import {
 
 export function* handleGetCompanies(
   action: PayloadAction<RequestGetCompaniesPayloadProps>,
-): any {
+): Generator<
+  StrictEffect,
+  void,
+  {
+    data: ResponseGetCompaniesPayloadProps;
+  }
+> {
   const { token, page, queryParams } = action.payload;
 
   try {
@@ -35,7 +43,7 @@ export function* handleGetCompanies(
 
 export function* handleLikeCompany(
   action: PayloadAction<RequestLikeCompanyPayloadProps>,
-): any {
+): Generator<StrictEffect, void> {
   const { token, id } = action.payload;
 
   try {
@@ -48,7 +56,7 @@ export function* handleLikeCompany(
 
 export function* handleDisLikeCompany(
   action: PayloadAction<RequestLikeCompanyPayloadProps>,
-): any {
+): Generator<StrictEffect, void> {
   const { token, id } = action.payload;
 
   try {
@@ -61,7 +69,13 @@ export function* handleDisLikeCompany(
 
 export function* handleExportExcel(
   action: PayloadAction<RequestGetCompaniesPayloadProps>,
-): any {
+): Generator<
+  StrictEffect,
+  void,
+  {
+    data: ResponseUploadFilePayloadProps;
+  }
+> {
   const { token, page } = action.payload;
 
   try {

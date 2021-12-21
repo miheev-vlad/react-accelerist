@@ -57,6 +57,7 @@ export type {
   MetaInformationProps,
   RequestLikeCompanyPayloadProps,
   QueryParamsProps,
+  ResponseUploadFilePayloadProps,
 } from './companies';
 
 export { nameSelector } from './user';

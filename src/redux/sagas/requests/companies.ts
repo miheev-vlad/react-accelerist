@@ -1,12 +1,12 @@
 import { apiCompaniesInstance } from '../../../api';
 
-type GetCompaniesProps = {
+export type GetCompaniesProps = {
   token: string;
   page: number;
   queryParams?: any;
 };
 
-type LikeCompanyProps = {
+export type LikeCompanyProps = {
   id: string;
   token: string;
 };
