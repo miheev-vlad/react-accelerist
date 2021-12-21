@@ -7,3 +7,5 @@ export {
   requestExportExcel,
   requestDisLikeCompany,
 } from './companies';
+
+export type { GetCompaniesProps, LikeCompanyProps } from './companies';

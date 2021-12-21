@@ -7,6 +7,7 @@ export type {
   ResponseGetCompaniesPayloadProps,
   RequestLikeCompanyPayloadProps,
   QueryParamsProps,
+  ResponseUploadFilePayloadProps,
 } from './companiesSlice';
 
 export * from './types';

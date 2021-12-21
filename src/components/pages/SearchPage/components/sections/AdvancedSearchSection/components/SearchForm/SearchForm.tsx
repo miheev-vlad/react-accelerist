@@ -86,29 +86,47 @@ const SearchForm: React.FC = () => {
         ? (values.revenue[0] * 1000000).toString().split('.')[0]
         : '',
       industry: values.industries ? values.industries : [],
-      gender: values.gender,
+      gender: values.gender.toLowerCase(),
     };
-
-    if (values.location) {
-      if (searchParams.location && searchParams.location.length > 0) {
-        searchParams.location?.unshift(titleCase(values.location.trim()));
-      } else {
-        searchParams.location = [titleCase(values.location.trim())];
-      }
-    }
-
-    if (values.industry) {
-      if (searchParams.industry && searchParams.industry.length > 0) {
-        searchParams.industry?.unshift(titleCase(values.industry.trim()));
-      } else {
-        searchParams.location = [titleCase(values.industry.trim())];
-      }
-    }
 
     dispatch(cleaningLocationStrings());
     dispatch(setQueryParams({ queryParams: searchParams }));
     dispatch(toggleShowAdvancedSearch());
     dispatch(setCurrentPage({ currentPage: '1' }));
+  };
+
+  const getItemCheckbox = (
+    itemsArray: string[],
+    searchString = '',
+    fieldName: string,
+  ) => {
+    let filteredArray;
+    if (searchString.trim()) {
+      filteredArray = itemsArray.filter(item =>
+        item.toLowerCase().includes(searchString.trim().toLocaleLowerCase()),
+      );
+    } else {
+      filteredArray = itemsArray;
+    }
+    if (filteredArray.length === 0) {
+      return (
+        <StyledNothingToShowText>Nothing to show...</StyledNothingToShowText>
+      );
+    }
+    return filteredArray.map((filteredItem, index) => (
+      <CheckboxItemWrapper key={index}>
+        <CheckboxWrapper>
+          <Field
+            name={fieldName}
+            component={Checkbox}
+            type="checkbox"
+            value={filteredItem}>
+            {({ input, meta }) => <Checkbox input={input} meta={meta} />}
+          </Field>
+          <CheckboxValueText>{filteredItem}</CheckboxValueText>
+        </CheckboxWrapper>
+      </CheckboxItemWrapper>
+    ));
   };
 
   return (
@@ -141,22 +159,11 @@ const SearchForm: React.FC = () => {
                   </Field>
                 </IndustryInputWrapper>
                 <MainCheckboxWrapper>
-                  {mockSelectData.map((industryItem, index) => (
-                    <CheckboxItemWrapper key={index}>
-                      <CheckboxWrapper>
-                        <Field
-                          name="industries"
-                          component={Checkbox}
-                          type="checkbox"
-                          value={industryItem}>
-                          {({ input, meta }) => (
-                            <Checkbox input={input} meta={meta} />
-                          )}
-                        </Field>
-                        <CheckboxValueText>{industryItem}</CheckboxValueText>
-                      </CheckboxWrapper>
-                    </CheckboxItemWrapper>
-                  ))}
+                  {getItemCheckbox(
+                    mockSelectData,
+                    values.industry,
+                    'industries',
+                  )}
                 </MainCheckboxWrapper>
               </IndustryInputContainer>
               <LocationInputContainer>
@@ -175,19 +182,7 @@ const SearchForm: React.FC = () => {
                   </Field>
                 </LocationInputWrapper>
                 <MainCheckboxWrapper>
-                  {usaStates.map((state, index) => (
-                    <CheckboxItemWrapper key={index}>
-                      <CheckboxWrapper>
-                        <Field
-                          name="locations"
-                          component={Checkbox}
-                          type="checkbox"
-                          value={state.name}
-                        />
-                        <CheckboxValueText>{state.name}</CheckboxValueText>
-                      </CheckboxWrapper>
-                    </CheckboxItemWrapper>
-                  ))}
+                  {getItemCheckbox(usaStates, values.location, 'locations')}
                 </MainCheckboxWrapper>
               </LocationInputContainer>
             </IndustryAndLocationContainer>
@@ -596,4 +591,10 @@ export const MultiRangeSliderRightWrapper = styled.div`
   @media screen and (max-width: 750px) {
     display: none;
   }
+`;
+
+export const StyledNothingToShowText = styled.p`
+  font-size: 12px;
+  color: ${Colors.dark_gray};
+  padding: 0 10px;
 `;
