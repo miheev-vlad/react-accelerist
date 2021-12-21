@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../globalColors';
@@ -11,9 +11,12 @@ import {
 
 type InputProps = {
   onChangeHandler(searchStr: string): void;
+  defaultValue: string;
 };
 
-const Input: React.FC<InputProps> = ({ onChangeHandler }) => {
+const Input: React.FC<InputProps> = ({ onChangeHandler, defaultValue }) => {
+  const [searchValue, setSearchValue] = useState(defaultValue);
+
   const dispatch = useDispatch();
 
   const showAdvancedSearch = useSelector(
@@ -24,13 +27,25 @@ const Input: React.FC<InputProps> = ({ onChangeHandler }) => {
     dispatch(toggleShowAdvancedSearch());
   };
 
+  const onChangeInputHandler = (inputValue: string) => {
+    setSearchValue(inputValue);
+  };
+
+  useEffect(() => {
+    setSearchValue(defaultValue);
+  }, [defaultValue]);
+
   return (
     <InputRow>
       <StyledInput
+        value={searchValue}
         type="text"
         placeholder={'Search location'}
         onKeyUp={event => {
           onChangeHandler((event.target as HTMLInputElement).value);
+        }}
+        onChange={event => {
+          onChangeInputHandler((event.target as HTMLInputElement).value);
         }}
       />
       <IconsContainer>

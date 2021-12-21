@@ -46,9 +46,7 @@ const SearchPage: React.FC = () => {
 
   const token = useSelector((state: RootState) => state.auth.token);
 
-  const queryParams = useSelector(
-    (state: RootState) => state.companies.queryParams,
-  );
+  const { queryParams } = useSelector((state: RootState) => state.companies);
 
   const showAdvancedSearch = useSelector(
     (state: RootState) => state.search.showAdvancedSearch,

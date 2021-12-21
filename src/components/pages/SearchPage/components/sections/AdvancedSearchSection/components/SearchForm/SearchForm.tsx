@@ -1,57 +1,111 @@
 import React from 'react';
 import { Field, Form } from 'react-final-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { titleCase } from 'title-case';
 import { Colors } from '../../../../../../../../globalColors';
 import {
-  cleaningQueryParams,
   QueryParamsProps,
   setCurrentPage,
   setQueryParams,
   toggleShowAdvancedSearch,
+  cleaningQueryParams,
+  cleaningFormFilterValues,
 } from '../../../../../../../../redux/ducks';
 import { Button, Checkbox, Input } from '../../../../../../../ui';
 import { mockSelectData } from '../../mockData';
 import usaStates from '../../mockData/usaSates';
 import { RangeSlider, SelectInput } from './components';
 import { MultiButtons } from '../MultiButtons';
+import { RootState } from '../../../../../../../../redux';
+import {
+  cleaningLocationStrings,
+  setFormFilterValues,
+} from '../../../../../../../../redux/ducks/companies';
 
 export type SearchValuesProps = {
-  industry?: string;
+  industry: string;
   industries?: string[];
-  location?: string;
+  location: string;
   locations?: string[];
   scope?: string;
   goals?: string;
   focus?: string;
   contributions?: string;
-  revenue?: number[];
-  gender?: string;
-  relations?: string;
+  revenue: number[];
+  gender: string;
+  relations: string;
   income?: string;
   ethnicity?: string;
-  age?: number[];
+  age: number[];
 };
 
 const SearchForm: React.FC = () => {
   const dispatch = useDispatch();
 
+  const { locationString, formFilterValues } = useSelector(
+    (state: RootState) => state.companies,
+  );
+
   const cancelButtonClickHandler = () => {
     dispatch(toggleShowAdvancedSearch());
     dispatch(cleaningQueryParams());
+    dispatch(cleaningFormFilterValues());
+
+    if (locationString) {
+      const searchParams = {
+        location: [titleCase(locationString.trim())],
+      };
+      dispatch(setQueryParams({ queryParams: searchParams }));
+    }
   };
 
   const onSubmit = (values: SearchValuesProps) => {
+    const formFilterValues = {
+      gender: values.gender,
+      relations: values.relations,
+      revenue: values.revenue,
+      age: values.age,
+      industry: values.industry ? values.industry : '',
+      location: values.location ? values.location : '',
+      industries: values.industries ? values.industries : [],
+      locations: values.locations ? values.locations : [],
+    };
+    dispatch(
+      setFormFilterValues({
+        formFilterValues,
+      }),
+    );
+
     const searchParams: QueryParamsProps = {
       location: values.locations ? values.locations : [],
       revenueMax: values.revenue
-        ? (values.revenue[1] * 1000000).toString()
+        ? (values.revenue[1] * 1000000).toString().split('.')[0]
         : '',
       revenueMin: values.revenue
-        ? (values.revenue[0] * 1000000).toString()
+        ? (values.revenue[0] * 1000000).toString().split('.')[0]
         : '',
       industry: values.industries ? values.industries : [],
+      gender: values.gender,
     };
+
+    if (values.location) {
+      if (searchParams.location && searchParams.location.length > 0) {
+        searchParams.location?.unshift(titleCase(values.location.trim()));
+      } else {
+        searchParams.location = [titleCase(values.location.trim())];
+      }
+    }
+
+    if (values.industry) {
+      if (searchParams.industry && searchParams.industry.length > 0) {
+        searchParams.industry?.unshift(titleCase(values.industry.trim()));
+      } else {
+        searchParams.location = [titleCase(values.industry.trim())];
+      }
+    }
+
+    dispatch(cleaningLocationStrings());
     dispatch(setQueryParams({ queryParams: searchParams }));
     dispatch(toggleShowAdvancedSearch());
     dispatch(setCurrentPage({ currentPage: '1' }));
@@ -65,14 +119,7 @@ const SearchForm: React.FC = () => {
           utils.changeValue(state, args[0], () => args[1]);
         },
       }}
-      initialValues={{
-        gender: 'Male',
-        relations: 'Single',
-        revenue: [5.5, 50],
-        age: [31, 35],
-        industry: '',
-        location: '',
-      }}
+      initialValues={{ ...formFilterValues }}
       render={({ handleSubmit, form, values }) => {
         return (
           <StyledForm onSubmit={handleSubmit}>
@@ -94,25 +141,22 @@ const SearchForm: React.FC = () => {
                   </Field>
                 </IndustryInputWrapper>
                 <MainCheckboxWrapper>
-                  {mockSelectData
-                    .filter(industryItem =>
-                      industryItem
-                        .toLowerCase()
-                        .includes(values.industry!.trim().toLocaleLowerCase()),
-                    )
-                    .map((industryItem, index) => (
-                      <CheckboxItemWrapper key={index}>
-                        <CheckboxWrapper>
-                          <Field
-                            name="industries"
-                            component={Checkbox}
-                            type="checkbox"
-                            value={industryItem}
-                          />
-                          <CheckboxValueText>{industryItem}</CheckboxValueText>
-                        </CheckboxWrapper>
-                      </CheckboxItemWrapper>
-                    ))}
+                  {mockSelectData.map((industryItem, index) => (
+                    <CheckboxItemWrapper key={index}>
+                      <CheckboxWrapper>
+                        <Field
+                          name="industries"
+                          component={Checkbox}
+                          type="checkbox"
+                          value={industryItem}>
+                          {({ input, meta }) => (
+                            <Checkbox input={input} meta={meta} />
+                          )}
+                        </Field>
+                        <CheckboxValueText>{industryItem}</CheckboxValueText>
+                      </CheckboxWrapper>
+                    </CheckboxItemWrapper>
+                  ))}
                 </MainCheckboxWrapper>
               </IndustryInputContainer>
               <LocationInputContainer>
@@ -131,25 +175,19 @@ const SearchForm: React.FC = () => {
                   </Field>
                 </LocationInputWrapper>
                 <MainCheckboxWrapper>
-                  {usaStates
-                    .filter(state =>
-                      state.name
-                        .toLowerCase()
-                        .includes(values.location!.trim().toLocaleLowerCase()),
-                    )
-                    .map((state, index) => (
-                      <CheckboxItemWrapper key={index}>
-                        <CheckboxWrapper>
-                          <Field
-                            name="locations"
-                            component={Checkbox}
-                            type="checkbox"
-                            value={state.name}
-                          />
-                          <CheckboxValueText>{state.name}</CheckboxValueText>
-                        </CheckboxWrapper>
-                      </CheckboxItemWrapper>
-                    ))}
+                  {usaStates.map((state, index) => (
+                    <CheckboxItemWrapper key={index}>
+                      <CheckboxWrapper>
+                        <Field
+                          name="locations"
+                          component={Checkbox}
+                          type="checkbox"
+                          value={state.name}
+                        />
+                        <CheckboxValueText>{state.name}</CheckboxValueText>
+                      </CheckboxWrapper>
+                    </CheckboxItemWrapper>
+                  ))}
                 </MainCheckboxWrapper>
               </LocationInputContainer>
             </IndustryAndLocationContainer>
@@ -235,7 +273,7 @@ const SearchForm: React.FC = () => {
                   maxValue={100}
                   minValue={0}
                   stepValue={0.1}
-                  defaultValues={[5.5, 50]}
+                  defaultValues={values.revenue}
                   valuePattern={true}
                   label={'Revenue'}
                   form={form}
@@ -253,6 +291,9 @@ const SearchForm: React.FC = () => {
                     label="Gender"
                     form={form}
                     filedName="gender"
+                    currentValue={['Male', 'Female', 'Both'].indexOf(
+                      values.gender,
+                    )}
                   />
                 </MultiButtonsWrapper>
                 <MultiButtonsWrapper>
@@ -261,6 +302,9 @@ const SearchForm: React.FC = () => {
                     label="Relations"
                     form={form}
                     filedName="relations"
+                    currentValue={['Single', 'Married'].indexOf(
+                      values.relations,
+                    )}
                   />
                 </MultiButtonsWrapper>
               </MultiButtonsContainer>
@@ -313,7 +357,7 @@ const SearchForm: React.FC = () => {
                   maxValue={100}
                   minValue={18}
                   stepValue={1}
-                  defaultValues={[23, 64]}
+                  defaultValues={values.age}
                   valuePattern={false}
                   label={'Age'}
                   form={form}

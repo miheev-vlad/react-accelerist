@@ -5,39 +5,46 @@ import { titleCase } from 'title-case';
 import { Colors } from '../../../../../globalColors';
 import { useDebouncedCallback } from '../../../../../hooks';
 import { RootState } from '../../../../../redux';
+import { setCurrentPage, setQueryParams } from '../../../../../redux/ducks';
 import {
-  getCompanies,
-  setCurrentPage,
-  setQueryParams,
-} from '../../../../../redux/ducks';
+  cleaningLocationStrings,
+  setLocationString,
+} from '../../../../../redux/ducks/companies';
 import { Input } from './components';
 
 const SearchPanel: React.FC = () => {
   const dispatch = useDispatch();
 
-  const token = useSelector((state: RootState) => state.auth.token);
+  const locationString = useSelector(
+    (state: RootState) => state.companies.locationString,
+  );
 
   const onChangeHandler = useDebouncedCallback((searchStr: string) => {
     if (!searchStr.trim()) {
+      dispatch(cleaningLocationStrings());
       const searchParams = {
         location: [],
       };
-      dispatch(getCompanies({ token, page: 1, queryParams: searchParams }));
       dispatch(setCurrentPage({ currentPage: '1' }));
+      dispatch(setQueryParams({ queryParams: searchParams }));
     } else {
+      dispatch(setLocationString({ locationString: searchStr }));
+      dispatch(setCurrentPage({ currentPage: '1' }));
       const searchParams = {
         location: searchStr ? [titleCase(searchStr.trim())] : [],
       };
       dispatch(setQueryParams({ queryParams: searchParams }));
-      dispatch(setCurrentPage({ currentPage: '1' }));
     }
-  }, 1000);
+  }, 1500);
 
   return (
     <PanelContainer>
       <PanelWrapper>
         <PanelTextWrapper>Search</PanelTextWrapper>
-        <Input onChangeHandler={onChangeHandler} />
+        <Input
+          onChangeHandler={onChangeHandler}
+          defaultValue={locationString}
+        />
       </PanelWrapper>
     </PanelContainer>
   );

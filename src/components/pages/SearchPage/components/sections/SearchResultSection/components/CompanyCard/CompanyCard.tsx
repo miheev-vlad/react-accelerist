@@ -15,7 +15,6 @@ import {
   LikeHeartIcon,
   UnlikeHeartIcon,
 } from '../../../../../../../ui';
-import { mockSearchData } from '../../mockData';
 
 type CompanyCardProps = {
   company: ItemsProps;
@@ -30,14 +29,14 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 
   const getLogo = () => {
     if (!company.logo) {
-      return mockSearchData[0].logo;
+      return '/assets/images/png/company.png';
     }
     return company.logo;
   };
 
   const getCsrFocus = () => {
     if (company.crsFocus.length === 0) {
-      return mockSearchData[0].csr_focus;
+      return ['Technics', 'IT', 'Education'];
     }
     return company.crsFocus;
   };

@@ -10,6 +10,19 @@ export type CompaniesStateProps = {
   uploadFile: string;
   isUploadingFile: boolean;
   queryParams: QueryParamsProps;
+  locationString: string;
+  formFilterValues: FormFilterValuesProps;
+};
+
+export type FormFilterValuesProps = {
+  gender: string;
+  relations: string;
+  revenue: number[];
+  age: number[];
+  industry: string;
+  location: string;
+  locations: string[];
+  industries: string[];
 };
 
 export type QueryParamsProps = {
@@ -45,9 +58,17 @@ export type RequestSetQueryParamsPayloadProps = {
   queryParams: QueryParamsProps;
 };
 
+export type RequestSetFormFilterValuesPayloadProps = {
+  formFilterValues: FormFilterValuesProps;
+};
+
 export type ResponseUploadFilePayloadProps = {
   file: string;
   name: string;
+};
+
+export type RequestSetLocationPayloadProps = {
+  locationString: string;
 };
 
 const initialState: CompaniesStateProps = {
@@ -71,6 +92,17 @@ const initialState: CompaniesStateProps = {
     location: [],
     revenueMin: '',
     revenueMax: '',
+  },
+  locationString: '',
+  formFilterValues: {
+    gender: 'Male',
+    relations: 'Single',
+    revenue: [5.5, 50],
+    age: [23, 64],
+    industry: '',
+    location: '',
+    locations: [],
+    industries: [],
   },
 };
 
@@ -155,7 +187,24 @@ const companiesSlice = createSlice({
       state,
       action: PayloadAction<RequestSetQueryParamsPayloadProps>,
     ) => {
-      state.queryParams = action.payload.queryParams;
+      if (action.payload.queryParams.ageRanges) {
+        state.queryParams.ageRanges = action.payload.queryParams.ageRanges;
+      }
+      if (action.payload.queryParams.gender) {
+        state.queryParams.gender = action.payload.queryParams.gender;
+      }
+      if (action.payload.queryParams.industry) {
+        state.queryParams.industry = action.payload.queryParams.industry;
+      }
+      if (action.payload.queryParams.location) {
+        state.queryParams.location = action.payload.queryParams.location;
+      }
+      if (action.payload.queryParams.revenueMax) {
+        state.queryParams.revenueMax = action.payload.queryParams.revenueMax;
+      }
+      if (action.payload.queryParams.revenueMin) {
+        state.queryParams.revenueMin = action.payload.queryParams.revenueMin;
+      }
     },
     cleaningQueryParams: state => {
       state.queryParams = {
@@ -166,6 +215,58 @@ const companiesSlice = createSlice({
         revenueMin: '',
         revenueMax: '',
       };
+    },
+    setFormFilterValues: (
+      state,
+      action: PayloadAction<RequestSetFormFilterValuesPayloadProps>,
+    ) => {
+      if (action.payload.formFilterValues.gender) {
+        state.formFilterValues.gender = action.payload.formFilterValues.gender;
+      }
+      if (action.payload.formFilterValues.relations) {
+        state.formFilterValues.relations =
+          action.payload.formFilterValues.relations;
+      }
+      if (action.payload.formFilterValues.revenue) {
+        state.formFilterValues.revenue =
+          action.payload.formFilterValues.revenue;
+      }
+      if (action.payload.formFilterValues.age) {
+        state.formFilterValues.age = action.payload.formFilterValues.age;
+      }
+      state.formFilterValues.industry =
+        action.payload.formFilterValues.industry;
+      state.formFilterValues.location =
+        action.payload.formFilterValues.location;
+      if (action.payload.formFilterValues.industries) {
+        state.formFilterValues.industries =
+          action.payload.formFilterValues.industries;
+      }
+      if (action.payload.formFilterValues.locations) {
+        state.formFilterValues.locations =
+          action.payload.formFilterValues.locations;
+      }
+    },
+    cleaningFormFilterValues: state => {
+      state.formFilterValues = {
+        gender: 'Male',
+        relations: 'Single',
+        revenue: [5.5, 50],
+        age: [23, 64],
+        industry: '',
+        location: '',
+        locations: [],
+        industries: [],
+      };
+    },
+    setLocationString: (
+      state,
+      action: PayloadAction<RequestSetLocationPayloadProps>,
+    ) => {
+      state.locationString = action.payload.locationString;
+    },
+    cleaningLocationStrings: state => {
+      state.locationString = '';
     },
   },
 });
@@ -183,6 +284,10 @@ export const {
   cleaningUploadFile,
   setQueryParams,
   cleaningQueryParams,
+  setLocationString,
+  cleaningLocationStrings,
+  setFormFilterValues,
+  cleaningFormFilterValues,
 } = companiesSlice.actions;
 
 export default companiesSlice.reducer;

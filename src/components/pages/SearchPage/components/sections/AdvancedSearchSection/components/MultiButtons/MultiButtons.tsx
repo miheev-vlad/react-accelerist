@@ -1,4 +1,3 @@
-import { FormApi } from 'final-form';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../../globalColors';
@@ -6,8 +5,9 @@ import { Colors } from '../../../../../../../../globalColors';
 type MultiButtonsProps = {
   titles: string[];
   label?: string;
-  form?: FormApi;
+  form?: any;
   filedName?: string;
+  currentValue?: number;
 };
 
 const MultiButtons: React.FC<MultiButtonsProps> = ({
@@ -15,8 +15,11 @@ const MultiButtons: React.FC<MultiButtonsProps> = ({
   label,
   form,
   filedName,
+  currentValue,
 }) => {
-  const [currentButton, setCurrentButton] = useState(0);
+  const [currentButton, setCurrentButton] = useState(
+    currentValue ? currentValue : 0,
+  );
 
   const clickHandler = (index: number, title: string) => {
     if (!filedName) {
