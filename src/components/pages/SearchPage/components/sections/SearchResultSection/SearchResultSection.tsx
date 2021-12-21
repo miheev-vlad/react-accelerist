@@ -4,6 +4,7 @@ import ReactLoading from 'react-loading';
 import { Colors } from '../../../../../../globalColors';
 import { ItemsProps } from '../../../../../../redux/ducks';
 import { ActivityBar, CompanyCard, PaginationPanel } from './components';
+import { ChangePageProps } from '../../../SearchPage';
 
 type SearchResultSectionProps = {
   companies: ItemsProps[];
@@ -13,7 +14,7 @@ type SearchResultSectionProps = {
   itemsPerPage: string;
   totalPages: number;
   isCompaniesLoading: boolean;
-  changePage({ selected }: any): void;
+  changePage({ selected }: ChangePageProps): void;
 };
 
 const SearchResultSection: React.FC<SearchResultSectionProps> = ({

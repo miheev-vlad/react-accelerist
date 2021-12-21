@@ -9,7 +9,7 @@ import {
   TimesSvgIconComponent,
   UnitedNationsBigLogoSvgComponent,
   UnitedNationsSmallLogoSvgComponent,
-} from './components';
+} from '../../../../ui';
 
 const Navbar: React.FC = () => {
   const [show, setShow] = useState(false);

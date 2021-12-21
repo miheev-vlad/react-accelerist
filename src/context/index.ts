@@ -1,1 +1,0 @@
-export { SearchFilterContext } from './SearchFilterContext';

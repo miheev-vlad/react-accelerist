@@ -23,6 +23,7 @@ export { toggleShowAdvancedSearch } from './search';
 export {
   getCompanies,
   setCompanies,
+  setError,
   setCurrentPage,
   likeCompany,
   exportExcel,
@@ -32,6 +33,10 @@ export {
   cleaningUploadFile,
   setQueryParams,
   cleaningQueryParams,
+  setLocationString,
+  cleaningLocationStrings,
+  setFormFilterValues,
+  cleaningFormFilterValues,
 } from './companies';
 
 export { default as authenticationReducer } from './authentication';

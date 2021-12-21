@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Outlet } from 'react-router';
 import styled from 'styled-components';
-import { SearchFilterContext } from '../../../context';
 import { Colors } from '../../../globalColors';
 import { Navbar, SearchPanel } from './components';
 
 const DashboardLayout: React.FC = () => {
-  const [filterName, setFilterName] = useState('');
-
   return (
-    <SearchFilterContext.Provider
-      value={{
-        filterName,
-      }}>
-      <LayoutWrapper>
-        <Navbar />
-        <SearchPanel setFilterName={setFilterName} />
-        <Outlet />
-      </LayoutWrapper>
-    </SearchFilterContext.Provider>
+    <LayoutWrapper>
+      <Navbar />
+      <SearchPanel />
+      <Outlet />
+    </LayoutWrapper>
   );
 };
 

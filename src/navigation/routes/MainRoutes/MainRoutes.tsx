@@ -21,7 +21,7 @@ const MainRoutes: React.FC = () => {
     <Routes>
       {isAuthorized && (
         <Route
-          path="/"
+          path="/dashboard"
           element={
             isAuthorized ? <DashboardLayout /> : <Navigate to="/auth" />
           }>
@@ -43,7 +43,11 @@ const MainRoutes: React.FC = () => {
       <Route
         path="*"
         element={
-          isAuthorized ? <Navigate to="/" /> : <Navigate to="/auth/register" />
+          isAuthorized ? (
+            <Navigate to="/dashboard" />
+          ) : (
+            <Navigate to="/auth/register" />
+          )
         }
       />
     </Routes>

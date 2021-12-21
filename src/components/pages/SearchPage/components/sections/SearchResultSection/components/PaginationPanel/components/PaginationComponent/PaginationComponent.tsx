@@ -2,11 +2,12 @@ import React from 'react';
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 import { Colors } from '../../../../../../../../../../globalColors';
-import { ChevronLeft, ChevronRight } from '../svgIcons';
+import { ChevronLeft, ChevronRight } from '../../../../../../../../../ui';
+import { ChangePageProps } from '../../../../../../../SearchPage';
 
 type PaginationComponentProps = {
   pageCount: number;
-  changePage({ selected }: any): void;
+  changePage({ selected }: ChangePageProps): void;
   currentPage: number;
   itemsPerPage: number;
   companies: number;

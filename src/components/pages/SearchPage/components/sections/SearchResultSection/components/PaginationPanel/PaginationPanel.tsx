@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ChangePageProps } from '../../../../../SearchPage';
 import { PaginationComponent } from './components';
 
 type PaginationPanelProps = {
   pageCount: number;
-  changePage({ selected }: any): void;
+  changePage({ selected }: ChangePageProps): void;
   currentPage: number;
   itemsPerPage: number;
   companies: number;

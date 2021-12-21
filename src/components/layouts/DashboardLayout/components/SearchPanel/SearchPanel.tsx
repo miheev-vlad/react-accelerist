@@ -1,45 +1,49 @@
 import React from 'react';
-import { Field, Form } from 'react-final-form';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { titleCase } from 'title-case';
 import { Colors } from '../../../../../globalColors';
+import { useDebouncedCallback } from '../../../../../hooks';
+import { RootState } from '../../../../../redux';
+import { setCurrentPage, setQueryParams } from '../../../../../redux/ducks';
+import {
+  cleaningLocationStrings,
+  setLocationString,
+} from '../../../../../redux/ducks/companies';
 import { Input } from './components';
 
-type SearchPanelProps = {
-  setFilterName: React.Dispatch<React.SetStateAction<string>>;
-};
+const SearchPanel: React.FC = () => {
+  const dispatch = useDispatch();
 
-type SearchValuesProps = {
-  company: string;
-};
+  const locationString = useSelector(
+    (state: RootState) => state.companies.locationString,
+  );
 
-const SearchPanel: React.FC<SearchPanelProps> = ({ setFilterName }) => {
-  const onSubmit = (values: SearchValuesProps) => {
-    setFilterName(values.company);
-  };
+  const onChangeHandler = useDebouncedCallback((searchStr: string) => {
+    if (!searchStr.trim()) {
+      dispatch(cleaningLocationStrings());
+      const searchParams = {
+        location: [],
+      };
+      dispatch(setCurrentPage({ currentPage: '1' }));
+      dispatch(setQueryParams({ queryParams: searchParams }));
+    } else {
+      dispatch(setLocationString({ locationString: searchStr }));
+      dispatch(setCurrentPage({ currentPage: '1' }));
+      const searchParams = {
+        location: searchStr ? [titleCase(searchStr.trim())] : [],
+      };
+      dispatch(setQueryParams({ queryParams: searchParams }));
+    }
+  }, 1500);
 
   return (
     <PanelContainer>
       <PanelWrapper>
         <PanelTextWrapper>Search</PanelTextWrapper>
-        <Form
-          onSubmit={onSubmit}
-          render={({ handleSubmit, form }) => {
-            return (
-              <StyledForm onSubmit={handleSubmit}>
-                <Field name="company">
-                  {({ input, meta }) => (
-                    <Input
-                      type="text"
-                      input={input}
-                      meta={meta}
-                      {...input}
-                      form={form}
-                    />
-                  )}
-                </Field>
-              </StyledForm>
-            );
-          }}
+        <Input
+          onChangeHandler={onChangeHandler}
+          defaultValue={locationString}
         />
       </PanelWrapper>
     </PanelContainer>

@@ -9,7 +9,7 @@ import {
   MailIconSvgComponent,
   SaveListIconSvgComponent,
   UploadIconSvgComponent,
-} from './components';
+} from '../../../../../../../ui';
 
 const Toast = () => {
   return (

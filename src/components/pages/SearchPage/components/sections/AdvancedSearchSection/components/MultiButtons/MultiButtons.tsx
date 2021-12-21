@@ -7,6 +7,7 @@ type MultiButtonsProps = {
   label?: string;
   form?: any;
   filedName?: string;
+  currentValue?: number;
 };
 
 const MultiButtons: React.FC<MultiButtonsProps> = ({
@@ -14,15 +15,18 @@ const MultiButtons: React.FC<MultiButtonsProps> = ({
   label,
   form,
   filedName,
+  currentValue,
 }) => {
-  const [currentButton, setCurrentButton] = useState(0);
+  const [currentButton, setCurrentButton] = useState(
+    currentValue ? currentValue : 0,
+  );
 
   const clickHandler = (index: number, title: string) => {
     if (!filedName) {
       return;
     }
     setCurrentButton(index);
-    form.mutators.setValue(filedName, title);
+    form!.mutators.setValue(filedName, title);
   };
 
   return (

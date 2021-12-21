@@ -9,13 +9,12 @@ import {
   ItemsProps,
   likeCompany,
 } from '../../../../../../../../redux/ducks';
-import { mockSearchData } from '../../mockData';
 import {
+  Button,
   DotIconSvgComponent,
   LikeHeartIcon,
-  ProfileButton,
   UnlikeHeartIcon,
-} from './components';
+} from '../../../../../../../ui';
 
 type CompanyCardProps = {
   company: ItemsProps;
@@ -30,14 +29,14 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 
   const getLogo = () => {
     if (!company.logo) {
-      return mockSearchData[0].logo;
+      return '/assets/images/png/company.png';
     }
     return company.logo;
   };
 
   const getCsrFocus = () => {
     if (company.crsFocus.length === 0) {
-      return mockSearchData[0].csr_focus;
+      return ['Technics', 'IT', 'Education'];
     }
     return company.crsFocus;
   };
@@ -65,7 +64,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
           <InformationLeftContent>
             <CompanyCSRParagraph>CSR Focus</CompanyCSRParagraph>
             <CSRDataContainer>
-              {getCsrFocus().map((csr: any, index: any) => (
+              {getCsrFocus().map((csr: string[], index: number) => (
                 <CSRDataWrapper key={index}>
                   {index !== 0 && (
                     <DotIconSvgComponentWrapper>
@@ -116,7 +115,7 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
           )}
         </div>
         <ProfileButtonWrapper>
-          <ProfileButton>Profile</ProfileButton>
+          <Button buttonType="button">Profile</Button>
         </ProfileButtonWrapper>
       </ProfileGridItem>
     </SearchResultCard>
@@ -394,4 +393,25 @@ export const HeartIconSvgComponentWrapper = styled.div.attrs(
 export const ProfileButtonWrapper = styled.div`
   width: 100%;
   padding-left: 8px;
+
+  button {
+    width: 100%;
+    height: 36px;
+    color: ${Colors.black};
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 150%;
+    border: 1px solid ${Colors.butterfly_blue};
+    background-color: transparent;
+    border-radius: 6px;
+    padding: 9px 0;
+    cursor: pointer;
+    transition: 0.4s;
+
+    &:hover {
+      background-color: ${Colors.butterfly_blue};
+      color: ${Colors.white};
+      opacity: 0.7;
+    }
+  }
 `;
